@@ -1,29 +1,7 @@
-﻿using System;
-using Microsoft.Extensions.CommandLineUtils;
+﻿using System.CommandLine;
+using Vitorio.CLI.Commands.Gen;
 
-var console = new CommandLineApplication
-{
-    Name = "vitorio-cli",
-    Description = "CLI for joking",
-    AllowArgumentSeparator = true
-};
+RootCommand rootCommand = new("CLI to help developers in day to day with small tools");
+rootCommand.AddCommand(new GenCommand().Create());
 
-console.HelpOption("-? | -h | --help");
-
-console.Command("hello", target =>
-{
-    var name = target.Argument("name", "Say a name");
-    target.OnExecute(() =>
-    {
-        Console.WriteLine($"Hello {name.Values[0]}");
-        return 0;
-    });
-});
-
-console.OnExecute(() =>
-{
-    console.ShowHelp();
-    return 1;
-});
-
-console.Execute(args);
+return rootCommand.InvokeAsync(args).Result;
