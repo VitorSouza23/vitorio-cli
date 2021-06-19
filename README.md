@@ -16,7 +16,7 @@ Vitorio CLI (não me julguem, não sou bons com nomes) nasceu para supririr essa
 Use o CLI do dotnet para realizar a instalação da ferramente
 - Exemplo de instalação global:
 ```
-dotnet tool install -g vitorio.cli
+dotnet tool install -g Vitorio.CLI
 ```
 
 # Como usar
