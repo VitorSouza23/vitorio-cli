@@ -10,15 +10,33 @@ namespace Vitorio.CLI.Commands.Gen
         {
             Command command = new("cpf", "Generete new CPF")
             {
-                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Generate a CPF with formatation")
+                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Generate a CPF with formatation"),
+                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Count of CPF to generate")
             };
 
-            command.Handler = CommandHandler.Create((bool formated, IConsole console) =>
+            command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
             {
-                string cpf = GenerateCPF();
-                if (formated)
-                    cpf = FormatCPF(cpf);
-                console.Out.Write($"{cpf}\n");
+                if (count <= 0)
+                {
+                    console.Error.Write("--count must be more than zero\n");
+                    return 1;
+                }
+
+                if (count > 1000)
+                {
+                    console.Error.Write("--count must be less or equal than 1000\n");
+                    return 1;
+                }
+
+                for (int index = 0; index < count; index++)
+                {
+                    string cpf = GenerateCPF();
+                    if (formated)
+                        cpf = FormatCPF(cpf);
+                    console.Out.Write($"{cpf}\n");
+                }
+
+                return 0;
             });
 
             return command;
@@ -33,8 +51,8 @@ namespace Vitorio.CLI.Commands.Gen
         private string GenerateCPF()
         {
             int sum = 0, remainder = 0;
-            int[] multiplier1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplier2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplier1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            int[] multiplier2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
             Random rnd = new();
             string seed = rnd.Next(100000000, 999999999).ToString();
