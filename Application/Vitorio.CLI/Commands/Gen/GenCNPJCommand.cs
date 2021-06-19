@@ -8,23 +8,23 @@ namespace Vitorio.CLI.Commands.Gen
     {
         public Command Create()
         {
-            Command command = new("cnpj", "Generete new CNPJ")
+            Command command = new("cnpj", "Gera CNPJ válido")
             {
-                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Generate a CPF with formatation"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Count of CPF to generate")
+                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Gera CNPJ com pontuação"),
+                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de CNPJs a serem gerados")
             };
 
             command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
             {
                 if (count <= 0)
                 {
-                    console.Error.Write("--count must be more than zero\n");
+                    console.Error.Write("--count deve ser maior que zero\n");
                     return 1;
                 }
 
                 if (count > 1000)
                 {
-                    console.Error.Write("--count must be less or equal than 1000\n");
+                    console.Error.Write("--count deve ser menor que 1000\n");
                     return 1;
                 }
 
@@ -53,31 +53,25 @@ namespace Vitorio.CLI.Commands.Gen
             int[] multiplier1 = new int[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
 
             Random rnd = new();
-            string seed = rnd.Next(10000000, 99999999).ToString();
+            string seed = rnd.Next(0, 99999999).ToString("D8");
 
             seed += "0001";
+            seed += CalculateCheckDigit(multiplier1, seed);
 
-            int result = 0;
-            for (int index = 0; index < multiplier1.Length; index++)
-                result += Convert.ToInt32(seed[index]) * multiplier1[index];
-
-            int rest = result % 11;
-            int digit1 = rest < 2 ? 0 : 11 - rest;
-
-            seed += digit1;
-
-            int[] multiplies2 = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            result = 0;
-            for (int index = 0; index < multiplies2.Length; index++)
-                result = Convert.ToInt32(seed[index] * multiplies2[index]);
-
-            rest = result % 11;
-            int digit2 = rest < 2 ? 0 : 11 - rest;
-
-            seed += digit2;
+            int[] multiplier2 = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+            seed += CalculateCheckDigit(multiplier2, seed);
 
             return seed;
+
+            int CalculateCheckDigit(int[] multiplier, string seed)
+            {
+                int result = 0;
+                for (int index = 0; index < multiplier.Length; index++)
+                    result += (int)char.GetNumericValue(seed[index]) * multiplier[index];
+
+                int rest = result % 11;
+                return rest < 2 ? 0 : 11 - rest;
+            }
         }
     }
 }

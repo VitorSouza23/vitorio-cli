@@ -11,7 +11,11 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/Application/Vitorio.CLI/bin/Debug/net5.0/Vitorio.CLI.dll",
-            "args": [],
+            "args": [
+                "gen",
+                "cnpj",
+                "-f"
+            ],
             "cwd": "${workspaceFolder}/Application/Vitorio.CLI",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",

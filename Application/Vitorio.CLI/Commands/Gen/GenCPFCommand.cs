@@ -8,23 +8,23 @@ namespace Vitorio.CLI.Commands.Gen
     {
         public Command Create()
         {
-            Command command = new("cpf", "Generete new CPF")
+            Command command = new("cpf", "Gera CPF válido")
             {
-                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Generate a CPF with formatation"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Count of CPF to generate")
+                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Gera CPF com pontuação"),
+                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de CPFs a serem gerados")
             };
 
             command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
             {
                 if (count <= 0)
                 {
-                    console.Error.Write("--count must be more than zero\n");
+                    console.Error.Write("--count deve ser maioir que zero\n");
                     return 1;
                 }
 
                 if (count > 1000)
                 {
-                    console.Error.Write("--count must be less or equal than 1000\n");
+                    console.Error.Write("--count deve ser menor que 1000\n");
                     return 1;
                 }
 

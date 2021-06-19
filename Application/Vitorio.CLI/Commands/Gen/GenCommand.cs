@@ -6,7 +6,7 @@ namespace Vitorio.CLI.Commands.Gen
     {
         public Command Create()
         {
-            Command command = new("gen", "Generete some data");
+            Command command = new("gen", "Gera algum tipo de dado");
             command.AddCommand(new GenCPFCommand().Create());
             command.AddCommand(new GenCNPJCommand().Create());
             return command;
