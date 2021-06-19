@@ -50,37 +50,33 @@ namespace Vitorio.CLI.Commands.Gen
 
         private string GenerateCPF()
         {
-            int sum = 0, remainder = 0;
             int[] multiplier1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplier2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
             Random rnd = new();
-            string seed = rnd.Next(100000000, 999999999).ToString();
+            string seed = rnd.Next(0, 999999999).ToString("D9");
 
-            for (int i = 0; i < 9; i++)
-                sum += int.Parse(seed[i].ToString()) * multiplier1[i];
+            seed += CalculateCheckDigit(multiplier1, seed);
 
-            remainder = sum % 11;
-            if (remainder < 2)
-                remainder = 0;
-            else
-                remainder = 11 - remainder;
+            int[] multiplier2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            seed += CalculateCheckDigit(multiplier2, seed);
 
-            seed = seed + remainder;
-            sum = 0;
-
-            for (int i = 0; i < 10; i++)
-                sum += int.Parse(seed[i].ToString()) * multiplier2[i];
-
-            remainder = sum % 11;
-
-            if (remainder < 2)
-                remainder = 0;
-            else
-                remainder = 11 - remainder;
-
-            seed = seed + remainder;
             return seed;
+
+            int CalculateCheckDigit(int[] multiplier, string seed)
+            {
+                int remainder = 0, sum = 0;
+
+                for (int index = 0; index < multiplier.Length; index++)
+                    sum += int.Parse(seed[index].ToString()) * multiplier[index];
+
+                remainder = sum % 11;
+                if (remainder < 2)
+                    remainder = 0;
+                else
+                    remainder = 11 - remainder;
+
+                return remainder;
+            }
         }
     }
 }
