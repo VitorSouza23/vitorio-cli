@@ -14,7 +14,7 @@ namespace Vitorio.CLI.Commands.Format
             {
                 new Argument<string>("date", "Valor da data a ser formatada"),
                 new Option<string>(new string[] { "--mask", "-m" }, () => "dd/MM/yyyy hh:mm:ss", "Máscara para o formatação da data"),
-                new Option<bool>(new string[] { "--json", "-j" }, "Formata a data para json")
+                new Option<bool>(new string[] { "--json", "-j" }, () => false, "Formata a data para json")
             };
 
             command.Handler = CommandHandler.Create((string date, string mask, bool json, IConsole console) =>
