@@ -1,6 +1,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using Vitorio.CLI.Extensions;
 
 namespace Vitorio.CLI.Commands.Gen
@@ -19,13 +20,13 @@ namespace Vitorio.CLI.Commands.Gen
             {
                 if (count <= 0)
                 {
-                    console.Error.Write("--count deve ser maioir que zero\n");
+                    console.Error.WriteLine("--count deve ser maioir que zero");
                     return 1;
                 }
 
                 if (count > 1000)
                 {
-                    console.Error.Write("--count deve ser menor que 1000\n");
+                    console.Error.WriteLine("--count deve ser menor que 1000");
                     return 1;
                 }
 
@@ -34,7 +35,7 @@ namespace Vitorio.CLI.Commands.Gen
                     string cpf = GenerateCPF();
                     if (formated)
                         cpf = cpf.FormatCPF();
-                    console.Out.Write($"{cpf}\n");
+                    console.Out.WriteLine(cpf);
                 }
 
                 return 0;

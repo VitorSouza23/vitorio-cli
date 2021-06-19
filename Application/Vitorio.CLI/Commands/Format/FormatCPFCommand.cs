@@ -1,5 +1,6 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using Vitorio.CLI.Extensions;
 
 namespace Vitorio.CLI.Commands.Format
@@ -18,20 +19,20 @@ namespace Vitorio.CLI.Commands.Format
             {
                 if (string.IsNullOrWhiteSpace(cpf))
                 {
-                    console.Error.Write("cpf não pode ser vazio\n");
+                    console.Error.WriteLine("cpf não pode ser vazio");
                     return 1;
                 }
                 if (remove)
-                    console.Out.Write(cpf.RemoveCPFFormatation() + "\n");
+                    console.Out.WriteLine(cpf.RemoveCPFFormatation());
                 else
                 {
                     if (!cpf.IsCPF())
                     {
-                        console.Error.Write("cpf precisa ser uma sequência de 11 digitos\n");
+                        console.Error.WriteLine("cpf precisa ser uma sequência de 11 digitos");
                         return 1;
                     }
                     else
-                        console.Out.Write(cpf.FormatCPF() + "\n");
+                        console.Out.WriteLine(cpf.FormatCPF());
                 }
                 return 0;
             });

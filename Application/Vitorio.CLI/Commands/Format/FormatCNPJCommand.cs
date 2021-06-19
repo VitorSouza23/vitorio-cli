@@ -1,6 +1,7 @@
 
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using Vitorio.CLI.Extensions;
 
 namespace Vitorio.CLI.Commands.Format
@@ -19,20 +20,20 @@ namespace Vitorio.CLI.Commands.Format
             {
                 if (string.IsNullOrWhiteSpace(cnpj))
                 {
-                    console.Error.Write("cnpj não pode ser vazio\n");
+                    console.Error.WriteLine("cnpj não pode ser vazio");
                     return 1;
                 }
                 if (remove)
-                    console.Out.Write(cnpj.RemoveCNPJFormatation() + "\n");
+                    console.Out.WriteLine(cnpj.RemoveCNPJFormatation());
                 else
                 {
                     if (!cnpj.IsCNPJ())
                     {
-                        console.Error.Write("cnpj precisa ser uma sequência de 14 digitos\n");
+                        console.Error.WriteLine("cnpj precisa ser uma sequência de 14 digitos");
                         return 1;
                     }
                     else
-                        console.Out.Write(cnpj.FormatCNPJ() + "\n");
+                        console.Out.WriteLine(cnpj.FormatCNPJ());
                 }
                 return 0;
             });

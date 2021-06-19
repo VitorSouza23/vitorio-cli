@@ -1,6 +1,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using System.Text.Json;
 
 namespace Vitorio.CLI.Commands.Format
@@ -20,7 +21,7 @@ namespace Vitorio.CLI.Commands.Format
             {
                 if (string.IsNullOrWhiteSpace(date))
                 {
-                    console.Error.Write("O valor da data não pode ser vazio\n");
+                    console.Error.WriteLine("O valor da data não pode ser vazio");
                     return 1;
                 }
 
@@ -29,22 +30,22 @@ namespace Vitorio.CLI.Commands.Format
                     if (json)
                     {
                         string jsonDate = JsonSerializer.Serialize(theDate);
-                        console.Out.Write(jsonDate + "\n");
+                        console.Out.WriteLine(jsonDate);
                     }
                     else
                     {
                         if (string.IsNullOrWhiteSpace(mask))
                         {
-                            console.Error.Write("--mask não pode ser vazio\n");
+                            console.Error.WriteLine("--mask não pode ser vazio");
                             return 1;
                         }
 
-                        console.Out.Write(theDate.ToString(mask) + "\n");
+                        console.Out.WriteLine(theDate.ToString(mask));
                     }
                 }
                 else
                 {
-                    console.Error.Write($"O valor {date} não foi reconhecido como uma data válida\n");
+                    console.Error.WriteLine($"O valor {date} não foi reconhecido como uma data válida");
                     return 1;
                 }
                 return 0;

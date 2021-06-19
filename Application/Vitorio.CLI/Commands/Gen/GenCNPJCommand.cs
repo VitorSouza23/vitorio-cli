@@ -1,6 +1,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 using Vitorio.CLI.Extensions;
 
 namespace Vitorio.CLI.Commands.Gen
@@ -19,13 +20,13 @@ namespace Vitorio.CLI.Commands.Gen
             {
                 if (count <= 0)
                 {
-                    console.Error.Write("--count deve ser maior que zero\n");
+                    console.Error.WriteLine("--count deve ser maior que zero");
                     return 1;
                 }
 
                 if (count > 1000)
                 {
-                    console.Error.Write("--count deve ser menor que 1000\n");
+                    console.Error.WriteLine("--count deve ser menor que 1000");
                     return 1;
                 }
 
@@ -34,7 +35,7 @@ namespace Vitorio.CLI.Commands.Gen
                     string cnpj = GenerateCNPJ();
                     if (formated)
                         cnpj = cnpj.FormatCNPJ();
-                    console.Out.Write($"{cnpj}\n");
+                    console.Out.WriteLine(cnpj);
                 }
 
                 return 0;

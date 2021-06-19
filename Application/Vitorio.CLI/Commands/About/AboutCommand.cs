@@ -1,5 +1,6 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.CommandLine.IO;
 
 namespace Vitorio.CLI.Commands.About
 {
@@ -11,11 +12,10 @@ namespace Vitorio.CLI.Commands.About
 
             command.Handler = CommandHandler.Create((IConsole console) =>
             {
-                console.Out.Write(@"Essa CLI foi baseada em minhas necessidades para geração e manipulação de dados durante o trabalho.
+                console.Out.WriteLine(@"Essa CLI foi baseada em minhas necessidades para geração e manipulação de dados durante o trabalho.
 Todos os dados gerados e manipulados por ela são de total responsabilidade de quem as usa.
 Toda ajuda e sugestão são bem-vidas.
 (っ▀¯▀)つ");
-                console.Out.Write("\n");
             });
 
             return command;
