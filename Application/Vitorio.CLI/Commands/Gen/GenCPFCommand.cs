@@ -1,6 +1,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using Vitorio.CLI.Extensions;
 
 namespace Vitorio.CLI.Commands.Gen
 {
@@ -32,7 +33,7 @@ namespace Vitorio.CLI.Commands.Gen
                 {
                     string cpf = GenerateCPF();
                     if (formated)
-                        cpf = FormatCPF(cpf);
+                        cpf = cpf.FormatCPF();
                     console.Out.Write($"{cpf}\n");
                 }
 
@@ -40,12 +41,6 @@ namespace Vitorio.CLI.Commands.Gen
             });
 
             return command;
-        }
-
-        private string FormatCPF(string cpf)
-        {
-            const string cpfMask = @"000\.000\.000\-00";
-            return Convert.ToUInt64(cpf).ToString(cpfMask);
         }
 
         private string GenerateCPF()

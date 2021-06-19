@@ -1,6 +1,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using Vitorio.CLI.Extensions;
 
 namespace Vitorio.CLI.Commands.Gen
 {
@@ -32,7 +33,7 @@ namespace Vitorio.CLI.Commands.Gen
                 {
                     string cnpj = GenerateCNPJ();
                     if (formated)
-                        cnpj = FormatCNPJ(cnpj);
+                        cnpj = cnpj.FormatCNPJ();
                     console.Out.Write($"{cnpj}\n");
                 }
 
@@ -40,12 +41,6 @@ namespace Vitorio.CLI.Commands.Gen
             });
 
             return command;
-        }
-
-        private string FormatCNPJ(string cnpj)
-        {
-            const string mask = @"00\.000\.000\/0000\-00";
-            return Convert.ToUInt64(cnpj).ToString(mask);
         }
 
         private string GenerateCNPJ()
