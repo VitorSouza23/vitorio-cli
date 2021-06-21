@@ -17,10 +17,11 @@ Valores possíveis:
  - N -> 00000000000000000000000000000000
  - B -> {00000000-0000-0000-0000-000000000000}
  - P -> (00000000-0000-0000-0000-000000000000)
- - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}")
+ - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}"),
+                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de GUIDs a serem gerados")
             };
 
-            command.Handler = CommandHandler.Create((string format, IConsole console) =>
+            command.Handler = CommandHandler.Create((string format, int count, IConsole console) =>
             {
                 if (string.IsNullOrWhiteSpace(format) || format is not "D" and not "N" and not "B" and not "P" and not "X")
                 {
@@ -28,7 +29,24 @@ Valores possíveis:
                     return 1;
                 }
                 else
-                    console.Out.WriteLine(Guid.NewGuid().ToString(format));
+                {
+                    if (count < 0)
+                    {
+                        console.Error.WriteLine("--count deve ser maior que zero");
+                        return 1;
+                    }
+
+                    if (count > 1000)
+                    {
+                        console.Error.WriteLine("--count deve ser menor que 1000");
+                        return 1;
+                    }
+
+                    for (int index = 0; index < count; index++)
+                    {
+                        console.Out.WriteLine(Guid.NewGuid().ToString(format));
+                    }
+                }
                 return 0;
             });
 

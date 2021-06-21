@@ -20,7 +20,7 @@ namespace Vitorio.CLI.Commands.Gen
             {
                 if (count <= 0)
                 {
-                    console.Error.WriteLine("--count deve ser maioir que zero");
+                    console.Error.WriteLine("--count deve ser maior que zero");
                     return 1;
                 }
 
