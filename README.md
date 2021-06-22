@@ -73,6 +73,56 @@ Exemplo:
 -> 46745896000139
 ```
 
+### gen guid
+Gera um GUID
+Opções:
+ - **-f, --formated**: Formato de sáida do GUID [default: D]
+   - Valores possíveis:
+     - D -> 00000000-0000-0000-0000-000000000000
+     - N -> 00000000000000000000000000000000
+     - B -> {00000000-0000-0000-0000-000000000000}
+     - P -> (00000000-0000-0000-0000-000000000000)
+     - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}} 
+ - **-c, --count <count>**: Número de GUIDs a serem gerados [default: 1]
+ 
+Exemplo:
+```
+-$ vitorio gen guid
+-> b731d16b-5365-4f9e-9cde-ca592342a025
+
+~$ vitorio gen guid -f N
+-> 708ac373fb0340a49c08b0275a12d3e9
+
+~$ vitorio gen guid -c 3
+-> 06e8badf-4ace-4fff-a4f5-1feadaffe6d7
+-> c80099b7-2ed9-4816-84df-80d4a7a65bc0
+-> 18bdbbc3-9b74-4f3b-819a-b05c03c323f9
+```
+
+### gen email
+Gera um e-mail não necessariamente válido
+Opções:
+ - **-p, --provider <provider>**: Provedor de e-mail personalizado
+ - **-d, --domain <domain>**: Domínio do e-mail (Ex: com, com.br, etc.) [default: com]
+ - **-c, --count <count>**: Número de e-mails a serem gerados [default: 1]
+ 
+Exemplo:
+```
+-$ vitorio gen email
+-> xrzoc@uwwk9.com
+
+~$ vitorio gen email -p gmail
+-> 3nd82@gmail.com
+
+~$ vitorio gen email -d com.br
+-> q4egu@c4a66.com.br
+
+~$ vitorio gen email -c 3
+-> jmhzn@1s7j4.com
+-> 06mow@0wf2r.com
+-> ovvt0@7lu64.com
+```
+
 ## Comando format (Formatador)
 Formata um dado através de uma máscara
 
