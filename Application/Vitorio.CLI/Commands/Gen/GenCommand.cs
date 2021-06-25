@@ -12,6 +12,7 @@ namespace Vitorio.CLI.Commands.Gen
             command.AddCommand(new GenGuidCommand().Create());
             command.AddCommand(new GenEmailCommand().Create());
             command.AddCommand(new GenPhoneCommand().Create());
+            command.AddCommand(new GenPasswordCommand().Create());
             return command;
         }
     }
