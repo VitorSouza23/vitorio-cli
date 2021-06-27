@@ -3,12 +3,13 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.Text;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands
 {
     public class GenPhoneCommand : ICommandFactory
     {
-        internal record PhoneRules(int CodeCountry, int Ddd, int NumberOfDigits, bool NotFormated);
+
         public Command Create()
         {
             Command command = new("phone", "Gera número de telefone")
@@ -40,48 +41,16 @@ namespace Vitorio.CLI.Commands
                     return 1;
                 }
 
-                Random random = new();
+                Phone phone = new(new Random());
                 for (int index = 0; index < count; index++)
                 {
-                    console.Out.WriteLine(GeneratePhoneNumber(phoneRules, random));
+                    console.Out.WriteLine(phone.New(phoneRules));
                 }
 
                 return 0;
             });
 
             return command;
-        }
-
-        private string GeneratePhoneNumber(PhoneRules phoneRules, Random random)
-        {
-            StringBuilder stringBuilder = new();
-            for (int index = 0; index < phoneRules.NumberOfDigits; index++)
-            {
-                stringBuilder.Append("9");
-            }
-            int maxNumberValue = int.Parse(stringBuilder.ToString());
-            string phoneNumber = random.Next(0, maxNumberValue).ToString($"D{phoneRules.NumberOfDigits}");
-
-            stringBuilder = new();
-
-            if (phoneRules.CodeCountry > 0)
-            {
-                stringBuilder.Append(phoneRules.NotFormated ? phoneRules.CodeCountry : $"+{phoneRules.CodeCountry}");
-                stringBuilder.Append(" ");
-            }
-
-            if (phoneRules.Ddd > 0)
-            {
-                stringBuilder.Append(phoneRules.NotFormated ? phoneRules.Ddd : $"({phoneRules.Ddd})");
-                stringBuilder.Append(" ");
-            }
-
-            if (phoneRules.NotFormated is false && phoneRules.NumberOfDigits >= 7)
-                stringBuilder.Append(phoneNumber.Insert(phoneNumber.Length - 4, "-"));
-            else
-                stringBuilder.Append(phoneNumber);
-
-            return stringBuilder.ToString();
         }
     }
 }
