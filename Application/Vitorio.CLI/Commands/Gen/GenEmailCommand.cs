@@ -3,6 +3,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.Linq;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Gen
 {
@@ -34,35 +35,13 @@ namespace Vitorio.CLI.Commands.Gen
                 Random random = new();
                 for (int index = 0; index < count; index++)
                 {
-                    console.Out.WriteLine(GenerateEmail(provider, domain, random));
+                    console.Out.WriteLine(new Email(random, provider, domain));
                 }
 
                 return 0;
             });
 
             return command;
-        }
-
-        public string GenerateEmail(string provider, string domain, Random random)
-        {
-            const int randomStringsLength = 5;
-            string thisProvider = string.IsNullOrWhiteSpace(provider) ?
-                RandomString(random, randomStringsLength) :
-                provider;
-
-            string thisDomain = string.IsNullOrWhiteSpace(domain) ?
-                "com" :
-                domain;
-
-            return $"{RandomString(random, randomStringsLength)}@{thisProvider}.{thisDomain}";
-
-        }
-
-        private string RandomString(Random random, int length)
-        {
-            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
