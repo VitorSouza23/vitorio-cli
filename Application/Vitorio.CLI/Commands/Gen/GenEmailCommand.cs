@@ -14,7 +14,7 @@ namespace Vitorio.CLI.Commands.Gen
             {
                 new Option<string>(new string[] { "--provider", "-p" }, "Provedor de e-mail personalizado"),
                 new Option<string>(new string[] { "--domain", "-d" }, () => "com", "Domínio do e-mail (Ex: com, com.br, etc.)"),
-                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de e-mails a serem gerados")
+                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de e-mails a serem gerados")
             };
 
             command.Handler = CommandHandler.Create((string provider, string domain, Count count, IConsole console) =>

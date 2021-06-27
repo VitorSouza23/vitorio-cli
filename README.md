@@ -123,6 +123,55 @@ Exemplo:
 -> ovvt0@7lu64.com
 ```
 
+### gen password
+Gera senha com caracteres aleatórios
+Opções:
+ - **-l, --length <length>**: Gera CNPJ com pontuação [default: False]Número de caracteres da senha (Min: 3, Max: 16) [default: 8]
+ - **-c, --count <count>**: Número de senhas a serem geradas [default: 1]
+ 
+Exemplo:
+```
+-$ vitorio gen password
+-> k6oM@wIZ
+
+~$ vitorio gen password -f 15
+-> 4ooSOBnsJQsfF$2
+
+~$ vitorio gen password -c 3
+-> y&6CO2Ip
+-> vMnl8jF*
+-> xY4b0Y#X
+```
+
+### gen phone
+Gera número de telefone
+Opções:
+ - **cc, --code-country <code-country>**: Código do país [default: 0]
+ - **d, --ddd <ddd>**: Código DDD da localidade de destino [default: 0]
+ - **nd, --number-of-digits <number-of-digits>**: Quantidade de dígitos no número (Min = 3, Max = 9) [default: 9]
+ - **nf, --not-formated**: Não formata o número telefônico [default: False]
+ - **-c, --count <count>**: Número de senhas a serem geradas [default: 1]
+ 
+Exemplo:
+```
+-$ vitorio gen phone
+-> 83153-4648
+
+~$ vitorio gen phone -d 22 -cc 55
+-> +55 (22) 31028-6798
+
+~$ vitorio gen phone -d 22 -cc 55 -nf
+-> 55 22 431587523
+
+~$ vitorio gen phone -nd 3
+-> 711
+
+~$ vitorio gen phone -c 3
+-> 45152-2342
+-> 28072-6289
+-> 88120-9248
+```
+
 ## Comando format (Formatador)
 Formata um dado através de uma máscara
 

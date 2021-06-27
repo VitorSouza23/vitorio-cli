@@ -17,15 +17,15 @@ namespace Vitorio.CLI.Commands
                 new Option<int>(new string[] { "--code-country", "-cc" }, () => 0, "Código do país"),
                 new Option<int>(new string[] { "--ddd", "-d" }, () => 0, "Código DDD da localidade de destino"),
                 new Option<int>(new string[] { "--number-of-digits", "-nd" }, () => 9, "Quantidade de dígitos no número (Min = 3, Max = 9)"),
-                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Quantidade de números telefônicos a serem gerados"),
+                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Quantidade de números telefônicos a serem gerados"),
                 new Option<bool>(new string[] { "--not-formated", "-nf" }, () => false, "Não formata o número telefônico")
             };
 
-            command.Handler = CommandHandler.Create((PhoneRules phoneRules, Count count, IConsole console) =>
+            command.Handler = CommandHandler.Create((PhoneRules phoneRules, int count, IConsole console) =>
             {
-                if (count.IsItNotOnRange())
+                if (((Count)count).IsItNotOnRange())
                 {
-                    console.Error.WriteLine(count.GetNotInRangeMessage());
+                    console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
                     return 1;
                 }
 

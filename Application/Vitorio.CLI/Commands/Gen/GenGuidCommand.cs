@@ -19,10 +19,10 @@ Valores possíveis:
  - B -> {00000000-0000-0000-0000-000000000000}
  - P -> (00000000-0000-0000-0000-000000000000)
  - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}"),
-                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de GUIDs a serem gerados")
+                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de GUIDs a serem gerados")
             };
 
-            command.Handler = CommandHandler.Create((string format, Count count, IConsole console) =>
+            command.Handler = CommandHandler.Create((string format, int count, IConsole console) =>
             {
                 if (string.IsNullOrWhiteSpace(format) || format is not "D" and not "N" and not "B" and not "P" and not "X")
                 {
@@ -31,9 +31,9 @@ Valores possíveis:
                 }
                 else
                 {
-                    if (count.IsItNotOnRange())
+                    if (((Count)count).IsItNotOnRange())
                     {
-                        console.Error.WriteLine(count.GetNotInRangeMessage());
+                        console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
                         return 1;
                     }
 

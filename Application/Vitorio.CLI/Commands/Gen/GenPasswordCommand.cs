@@ -14,14 +14,14 @@ namespace Vitorio.CLI.Commands.Gen
             Command command = new("password", "Gera senha com caracteres aleatórios")
             {
                 new Option<int>(new string[] { "--length", "-l" }, () => 8, "Número de caracteres da senha (Min: 3, Max: 16)"),
-                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de senhas a serem geradas")
+                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de senhas a serem geradas")
             };
 
-            command.Handler = CommandHandler.Create((int length, Count count, IConsole console) =>
+            command.Handler = CommandHandler.Create((int length, int count, IConsole console) =>
             {
-                if (count.IsItNotOnRange())
+                if (((Count)count).IsItNotOnRange())
                 {
-                    console.Error.WriteLine(count.GetNotInRangeMessage());
+                    console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
                     return 1;
                 }
 
