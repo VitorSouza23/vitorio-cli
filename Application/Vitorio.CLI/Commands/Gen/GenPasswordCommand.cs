@@ -3,6 +3,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using System.Linq;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Gen
 {
@@ -36,23 +37,16 @@ namespace Vitorio.CLI.Commands.Gen
                     return 1;
                 }
 
-                Random random = new();
+                Password password = new(new Random());
                 for (int index = 0; index < count; index++)
                 {
-                    console.Out.WriteLine(GeneratePassword(length, random));
+                    console.Out.WriteLine(password.New(length));
                 }
 
                 return 0;
             });
 
             return command;
-        }
-
-        private string GeneratePassword(int length, Random random)
-        {
-            const string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*^";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
