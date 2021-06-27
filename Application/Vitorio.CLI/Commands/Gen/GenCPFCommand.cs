@@ -2,7 +2,7 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
-using Vitorio.CLI.Extensions;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Gen
 {
@@ -30,11 +30,12 @@ namespace Vitorio.CLI.Commands.Gen
                     return 1;
                 }
 
+                Random random = new();
                 for (int index = 0; index < count; index++)
                 {
-                    string cpf = GenerateCPF();
+                    Cpf cpf = new Cpf(random).New();
                     if (formated)
-                        cpf = cpf.FormatCPF();
+                        cpf = cpf.Format();
                     console.Out.WriteLine(cpf);
                 }
 
@@ -42,37 +43,6 @@ namespace Vitorio.CLI.Commands.Gen
             });
 
             return command;
-        }
-
-        private string GenerateCPF()
-        {
-            int[] multiplier1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            Random rnd = new();
-            string seed = rnd.Next(0, 999999999).ToString("D9");
-
-            seed += CalculateCheckDigit(multiplier1, seed);
-
-            int[] multiplier2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            seed += CalculateCheckDigit(multiplier2, seed);
-
-            return seed;
-
-            int CalculateCheckDigit(int[] multiplier, string seed)
-            {
-                int remainder = 0, sum = 0;
-
-                for (int index = 0; index < multiplier.Length; index++)
-                    sum += int.Parse(seed[index].ToString()) * multiplier[index];
-
-                remainder = sum % 11;
-                if (remainder < 2)
-                    remainder = 0;
-                else
-                    remainder = 11 - remainder;
-
-                return remainder;
-            }
         }
     }
 }

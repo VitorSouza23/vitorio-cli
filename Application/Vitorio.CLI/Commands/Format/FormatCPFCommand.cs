@@ -1,7 +1,7 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
-using Vitorio.CLI.Extensions;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Format
 {
@@ -23,16 +23,16 @@ namespace Vitorio.CLI.Commands.Format
                     return 1;
                 }
                 if (remove)
-                    console.Out.WriteLine(cpf.RemoveCPFFormatation());
+                    console.Out.WriteLine(Cpf.RemoveFormat(cpf));
                 else
                 {
-                    if (!cpf.IsCPF())
+                    if (!Cpf.IsCPF(cpf))
                     {
                         console.Error.WriteLine("cpf precisa ser uma sequência de 11 digitos");
                         return 1;
                     }
                     else
-                        console.Out.WriteLine(cpf.FormatCPF());
+                        console.Out.WriteLine(Cpf.Format(cpf));
                 }
                 return 0;
             });
