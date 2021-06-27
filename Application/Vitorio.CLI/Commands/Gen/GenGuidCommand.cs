@@ -2,6 +2,7 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Gen
 {
@@ -18,10 +19,10 @@ Valores possíveis:
  - B -> {00000000-0000-0000-0000-000000000000}
  - P -> (00000000-0000-0000-0000-000000000000)
  - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de GUIDs a serem gerados")
+                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de GUIDs a serem gerados")
             };
 
-            command.Handler = CommandHandler.Create((string format, int count, IConsole console) =>
+            command.Handler = CommandHandler.Create((string format, Count count, IConsole console) =>
             {
                 if (string.IsNullOrWhiteSpace(format) || format is not "D" and not "N" and not "B" and not "P" and not "X")
                 {
@@ -30,15 +31,9 @@ Valores possíveis:
                 }
                 else
                 {
-                    if (count < 0)
+                    if (count.IsItNotOnRange())
                     {
-                        console.Error.WriteLine("--count deve ser maior que zero");
-                        return 1;
-                    }
-
-                    if (count > 1000)
-                    {
-                        console.Error.WriteLine("--count deve ser menor que 1000");
+                        console.Error.WriteLine(count.GetNotInRangeMessage());
                         return 1;
                     }
 

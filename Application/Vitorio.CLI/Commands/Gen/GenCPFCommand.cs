@@ -13,20 +13,14 @@ namespace Vitorio.CLI.Commands.Gen
             Command command = new("cpf", "Gera CPF válido")
             {
                 new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Gera CPF com pontuação"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de CPFs a serem gerados")
+                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de CPFs a serem gerados")
             };
 
-            command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
+            command.Handler = CommandHandler.Create((bool formated, Count count, IConsole console) =>
             {
-                if (count <= 0)
+                if (count.IsItNotOnRange())
                 {
-                    console.Error.WriteLine("--count deve ser maior que zero");
-                    return 1;
-                }
-
-                if (count > 1000)
-                {
-                    console.Error.WriteLine("--count deve ser menor que 1000");
+                    console.Error.WriteLine(count.GetNotInRangeMessage());
                     return 1;
                 }
 

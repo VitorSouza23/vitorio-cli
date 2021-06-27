@@ -14,33 +14,28 @@ namespace Vitorio.CLI.Commands.Gen
             Command command = new("password", "Gera senha com caracteres aleatórios")
             {
                 new Option<int>(new string[] { "--length", "-l" }, () => 8, "Número de caracteres da senha (Min: 3, Max: 16)"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de senhas a serem geradas")
+                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de senhas a serem geradas")
             };
 
-            command.Handler = CommandHandler.Create((int length, int count, IConsole console) =>
+            command.Handler = CommandHandler.Create((int length, Count count, IConsole console) =>
             {
-                if (count < 0)
+                if (count.IsItNotOnRange())
                 {
-                    console.Error.WriteLine("--count deve ser maior que zero");
+                    console.Error.WriteLine(count.GetNotInRangeMessage());
                     return 1;
                 }
 
-                if (count > 1000)
+                Password password = new(new Random(), length);
+
+                if (!password.IsLengthInRange())
                 {
-                    console.Error.WriteLine("--count deve ser menor que 1000");
+                    console.Error.WriteLine(password.GetLengthOutOfRangeMessage());
                     return 1;
                 }
 
-                if (length is < 3 or > 16)
-                {
-                    console.Error.WriteLine("--length deve ser maior que 3 e menor que 16");
-                    return 1;
-                }
-
-                Password password = new(new Random());
                 for (int index = 0; index < count; index++)
                 {
-                    console.Out.WriteLine(password.New(length));
+                    console.Out.WriteLine(password.New());
                 }
 
                 return 0;

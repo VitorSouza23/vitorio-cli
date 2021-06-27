@@ -17,34 +17,29 @@ namespace Vitorio.CLI.Commands
                 new Option<int>(new string[] { "--code-country", "-cc" }, () => 0, "Código do país"),
                 new Option<int>(new string[] { "--ddd", "-d" }, () => 0, "Código DDD da localidade de destino"),
                 new Option<int>(new string[] { "--number-of-digits", "-nd" }, () => 9, "Quantidade de dígitos no número (Min = 3, Max = 9)"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Quantidade de números telefônicos a serem gerados"),
+                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Quantidade de números telefônicos a serem gerados"),
                 new Option<bool>(new string[] { "--not-formated", "-nf" }, () => false, "Não formata o número telefônico")
             };
 
-            command.Handler = CommandHandler.Create((PhoneRules phoneRules, int count, IConsole console) =>
+            command.Handler = CommandHandler.Create((PhoneRules phoneRules, Count count, IConsole console) =>
             {
-                if (phoneRules.NumberOfDigits is < 3 or > 9)
+                if (count.IsItNotOnRange())
                 {
-                    console.Error.WriteLine("--number-of-digits deve ser entre 3 a 10");
+                    console.Error.WriteLine(count.GetNotInRangeMessage());
                     return 1;
                 }
 
-                if (count < 0)
+                Phone phone = new(new Random(), phoneRules);
+
+                if (phone.IsNotNumberOfDigitsInRange())
                 {
-                    console.Error.WriteLine("--count deve ser maior que zero");
+                    console.Error.WriteLine(phone.GetNotInRangeMessage());
                     return 1;
                 }
 
-                if (count > 1000)
-                {
-                    console.Error.WriteLine("--count deve ser menor que 1000");
-                    return 1;
-                }
-
-                Phone phone = new(new Random());
                 for (int index = 0; index < count; index++)
                 {
-                    console.Out.WriteLine(phone.New(phoneRules));
+                    console.Out.WriteLine(phone.New());
                 }
 
                 return 0;

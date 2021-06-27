@@ -14,20 +14,14 @@ namespace Vitorio.CLI.Commands.Gen
             {
                 new Option<string>(new string[] { "--provider", "-p" }, "Provedor de e-mail personalizado"),
                 new Option<string>(new string[] { "--domain", "-d" }, () => "com", "Domínio do e-mail (Ex: com, com.br, etc.)"),
-                new Option<int>(new string[] { "--count", "-c" }, () => 1, "Número de e-mails a serem gerados")
+                new Option<Count>(new string[] { "--count", "-c" }, () => Count.Default(), "Número de e-mails a serem gerados")
             };
 
-            command.Handler = CommandHandler.Create((string provider, string domain, int count, IConsole console) =>
+            command.Handler = CommandHandler.Create((string provider, string domain, Count count, IConsole console) =>
             {
-                if (count <= 0)
+                if (count.IsItNotOnRange())
                 {
-                    console.Error.WriteLine("--count deve ser maior que zero");
-                    return 1;
-                }
-
-                if (count > 1000)
-                {
-                    console.Error.WriteLine("--count deve ser menor que 1000");
+                    console.Error.WriteLine(count.GetNotInRangeMessage());
                     return 1;
                 }
 
