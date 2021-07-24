@@ -17,11 +17,11 @@ namespace Vitorio.CLI.Commands.Gen
                 new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de e-mails a serem gerados")
             };
 
-            command.Handler = CommandHandler.Create((string provider, string domain, Count count, IConsole console) =>
+            command.Handler = CommandHandler.Create((string provider, string domain, int count, IConsole console) =>
             {
-                if (count.IsItNotOnRange())
+                if (((Count)count).IsItNotOnRange())
                 {
-                    console.Error.WriteLine(count.GetNotInRangeMessage());
+                    console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
                     return 1;
                 }
 

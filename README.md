@@ -41,7 +41,7 @@ Opções:
  - **-c, --count <count>**: Número de CPFs a serem gerados [default: 1]
 Exemplo:
 ```
--$ vitorio gen cpf
+~$ vitorio gen cpf
 -> 36281768329
 
 ~$ vitorio gen cpf -f
@@ -61,7 +61,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio gen cnpj
+~$ vitorio gen cnpj
 -> 02903922000134
 
 ~$ vitorio gen cnpj -f
@@ -87,7 +87,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio gen guid
+~$ vitorio gen guid
 -> b731d16b-5365-4f9e-9cde-ca592342a025
 
 ~$ vitorio gen guid -f N
@@ -108,7 +108,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio gen email
+~$ vitorio gen email
 -> xrzoc@uwwk9.com
 
 ~$ vitorio gen email -p gmail
@@ -131,7 +131,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio gen password
+~$ vitorio gen password
 -> k6oM@wIZ
 
 ~$ vitorio gen password -f 15
@@ -154,7 +154,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio gen phone
+~$ vitorio gen phone
 -> 83153-4648
 
 ~$ vitorio gen phone -d 22 -cc 55
@@ -172,6 +172,58 @@ Exemplo:
 -> 88120-9248
 ```
 
+### gen name
+Gera nome aleatório
+Opções:
+ - **-g, --gender <gender>**: Gera nome feminino (F), mascilino (M) ou aleatório (A) [default: A]
+ - **-c, --count <count>**: Número de nomes a serem gerados [default: 1]
+ 
+Exemplo:
+```
+~$ vitorio gen name
+-> Luiz Felipe Souza
+
+~$ vitorio gen name -g F
+-> Maitê Carvalho
+
+~$ vitorio gen name -c 3
+-> Alícia Santos
+-> Ana Luiza Carneiro
+-> Luna Silveira
+```
+
+### gen cep
+Gera CEPs (válidos ou não)
+Opções:
+ - **-f, --formated**: Gera CEP com pontuação [default: False]
+ - **-c, --count <count>**: Número de CEPs a serem gerados [default: 1]
+ 
+Exemplo:
+```
+~$ vitorio gen cep
+-> 05778328
+
+~$ vitorio gen cep -f
+-> 63787-540
+
+~$ vitorio gen cep -c 3
+-> 22336775
+-> 90895609
+-> 92083776
+```
+
+### gen birthdate
+Gera a data de aniversário respecitiva a uma idade
+
+Argumentos:
+- age: Idade da qual será estraída a data de aniversário
+ 
+Exemplo:
+```
+~$ vitorio gen birthdate 30
+-> 24/07/1991
+```
+
 ## Comando format (Formatador)
 Formata um dado através de uma máscara
 
@@ -186,7 +238,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio format cpf 36281768329
+~$ vitorio format cpf 36281768329
 -> 362.817.683-29
 
 ~$ vitorio format cpf 362.817.683-29 -r
@@ -204,7 +256,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio format cnpj 02903922000134
+~$ vitorio format cnpj 02903922000134
 -> 02.903.922/0001-34
 
 ~$ vitorio format cnpj 02.903.922/0001-34 -r
@@ -223,7 +275,7 @@ Opções:
  
 Exemplo:
 ```
--$ vitorio format date "2000-01-01 01:00:00"
+~$ vitorio format date "2000-01-01 01:00:00"
 -> 01/01/2000 01:00:00
 
 ~$ vitorio format date "01/01/2000 1:00:00" -m "yyyy-MM-dd hh:mm.ss"
