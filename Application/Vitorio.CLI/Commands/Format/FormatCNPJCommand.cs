@@ -2,7 +2,7 @@
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.IO;
-using Vitorio.CLI.Extensions;
+using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Format
 {
@@ -24,16 +24,16 @@ namespace Vitorio.CLI.Commands.Format
                     return 1;
                 }
                 if (remove)
-                    console.Out.WriteLine(cnpj.RemoveCNPJFormatation());
+                    console.Out.WriteLine(Cnpj.RemoveFormat(cnpj));
                 else
                 {
-                    if (!cnpj.IsCNPJ())
+                    if (!Cnpj.IsCnpj(cnpj))
                     {
                         console.Error.WriteLine("cnpj precisa ser uma sequência de 14 digitos");
                         return 1;
                     }
                     else
-                        console.Out.WriteLine(cnpj.FormatCNPJ());
+                        console.Out.WriteLine(Cnpj.Foramt(cnpj));
                 }
                 return 0;
             });

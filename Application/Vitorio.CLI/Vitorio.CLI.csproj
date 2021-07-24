@@ -8,6 +8,13 @@
     <ToolCommandName>vitorio</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
+    <PackageId>Vitorio.CLI</PackageId>
+    <Version>1.1.0</Version>
+    <Authors>VitorSouza23</Authors>
+    <Description>
+      Essa CLI foi baseada em necessidades para geração e manipulação de dados durante o trabalho.
+      Todos os dados gerados e manipulados por ela são de total responsabilidade de quem as usa;
+    </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/VitorSouza23/vitorio-cli</PackageProjectUrl>
     <RepositoryUrl>https://github.com/VitorSouza23/vitorio-cli</RepositoryUrl>
@@ -18,6 +25,10 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21216.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="/Resources/*" CopyToPublishDirectory="PreserveNewest" PackagePath="/Resources"/>
   </ItemGroup>
 
 </Project>

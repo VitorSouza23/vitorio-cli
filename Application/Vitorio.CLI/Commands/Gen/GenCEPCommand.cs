@@ -4,16 +4,17 @@ using System.CommandLine.Invocation;
 using System.CommandLine.IO;
 using Vitorio.CLI.Model;
 
-namespace Vitorio.CLI.Commands.Gen
+namespace Vitorio.CLI.Commands
 {
-    public class GenCPFCommand : ICommandFactory
+    public class GenCEPCommand : ICommandFactory
     {
         public Command Create()
         {
-            Command command = new("cpf", "Gera CPF válido")
+            Command command = new Command("cep", "Gera CEPs (válidos ou não)")
             {
-                new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Gera CPF com pontuação"),
-                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CPFs a serem gerados")
+                new Option<bool>(new string[] {"--formated", "-f"}, () => false, "Gera CEP com pontuação"),
+                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CEPs a serem gerados")
+
             };
 
             command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
@@ -25,12 +26,13 @@ namespace Vitorio.CLI.Commands.Gen
                 }
 
                 Random random = new();
+
                 for (int index = 0; index < count; index++)
                 {
-                    Cpf cpf = new Cpf(random).New();
+                    CEP cep = new CEP(random).New();
                     if (formated)
-                        cpf = cpf.Format();
-                    console.Out.WriteLine(cpf);
+                        cep = cep.Format();
+                    console.Out.WriteLine(cep);
                 }
 
                 return 0;
