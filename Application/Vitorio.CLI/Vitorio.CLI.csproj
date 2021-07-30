@@ -9,7 +9,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
     <PackageId>Vitorio.CLI</PackageId>
-    <Version>1.1.0</Version>
+    <Version>1.1.2</Version>
     <Authors>VitorSouza23</Authors>
     <Description>
       Essa CLI foi baseada em necessidades para geração e manipulação de dados durante o trabalho.
@@ -28,7 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="/Resources/*" CopyToPublishDirectory="PreserveNewest" PackagePath="/Resources"/>
+    <Content Include="Resources/**" CopyToPublishDirectory="PreserveNewest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

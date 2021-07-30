@@ -2,7 +2,7 @@
 
 # O que é?
 
-Devido algumas experiências diárias no trablaho, surgiu a necessidade de uma feramenta que facilitasse o processo de desnevovimento. 
+Devido algumas experiências diárias no trabalho, surgiu a necessidade de uma feramenta que facilitasse o processo de desnevovimento. 
 Basicamente alguma coisa capaz de gerar e manipular alguns dados, pricipalmente para preenchimento de perfis de usuários.
 
 Vitorio CLI (não me julguem, não sou bons com nomes) nasceu para supririr essa necessidade.

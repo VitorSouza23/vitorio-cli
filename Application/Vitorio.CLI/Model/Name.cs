@@ -32,7 +32,8 @@ namespace Vitorio.CLI.Model
 
         private string[] GetNamesFromJsonFile(string fileName)
         {
-            string jsonContent = File.ReadAllText($"Resources/{fileName}.json");
+            string currentDirectory = AppContext.BaseDirectory;
+            string jsonContent = File.ReadAllText(Path.Combine(currentDirectory, "Resources", $"{fileName}.json"));
             var namesCollection = JsonSerializer.Deserialize<NameCollection>(jsonContent);
             return namesCollection.Names;
         }
