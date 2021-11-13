@@ -1,9 +1,6 @@
-using System.CommandLine;
+namespace Vitorio.CLI.Commands;
 
-namespace Vitorio.CLI.Commands
+public interface ICommandFactory
 {
-    public interface ICommandFactory
-    {
-        Command Create();
-    }
+    Command Create();
 }

@@ -1,5 +1,4 @@
-﻿using System.CommandLine;
-using Vitorio.CLI.Commands.About;
+﻿using Vitorio.CLI.Commands.About;
 using Vitorio.CLI.Commands.Format;
 using Vitorio.CLI.Commands.Gen;
 
