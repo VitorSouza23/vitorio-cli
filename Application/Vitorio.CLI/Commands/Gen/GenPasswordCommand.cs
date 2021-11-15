@@ -1,47 +1,41 @@
-using System;
-using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.CommandLine.IO;
-using System.Linq;
 using Vitorio.CLI.Model;
 
-namespace Vitorio.CLI.Commands.Gen
+namespace Vitorio.CLI.Commands.Gen;
+
+public class GenPasswordCommand : ICommandFactory
 {
-    public class GenPasswordCommand : ICommandFactory
+    public Command Create()
     {
-        public Command Create()
+        Command command = new("password", "Gera senha com caracteres aleatórios")
         {
-            Command command = new("password", "Gera senha com caracteres aleatórios")
+            new Option<int>(new string[] { "--length", "-l" }, () => 8, "Número de caracteres da senha (Min: 3, Max: 16)"),
+            new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de senhas a serem geradas")
+        };
+
+        command.Handler = CommandHandler.Create((int length, int count, IConsole console) =>
+        {
+            if (((Count)count).IsItNotOnRange())
             {
-                new Option<int>(new string[] { "--length", "-l" }, () => 8, "Número de caracteres da senha (Min: 3, Max: 16)"),
-                new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de senhas a serem geradas")
-            };
+                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                return 1;
+            }
 
-            command.Handler = CommandHandler.Create((int length, int count, IConsole console) =>
+            Password password = new(new Random(), length);
+
+            if (!password.IsLengthInRange())
             {
-                if (((Count)count).IsItNotOnRange())
-                {
-                    console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                    return 1;
-                }
+                console.Error.WriteLine(password.GetLengthOutOfRangeMessage());
+                return 1;
+            }
 
-                Password password = new(new Random(), length);
+            for (int index = 0; index < count; index++)
+            {
+                console.Out.WriteLine(password.New());
+            }
 
-                if (!password.IsLengthInRange())
-                {
-                    console.Error.WriteLine(password.GetLengthOutOfRangeMessage());
-                    return 1;
-                }
+            return 0;
+        });
 
-                for (int index = 0; index < count; index++)
-                {
-                    console.Out.WriteLine(password.New());
-                }
-
-                return 0;
-            });
-
-            return command;
-        }
+        return command;
     }
 }

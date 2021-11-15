@@ -1,22 +1,19 @@
-using System.CommandLine;
+namespace Vitorio.CLI.Commands.Gen;
 
-namespace Vitorio.CLI.Commands.Gen
+public class GenCommand : ICommandFactory
 {
-    public class GenCommand : ICommandFactory
+    public Command Create()
     {
-        public Command Create()
-        {
-            Command command = new("gen", "Gera algum tipo de dado");
-            command.AddCommand(new GenCPFCommand().Create());
-            command.AddCommand(new GenCNPJCommand().Create());
-            command.AddCommand(new GenGuidCommand().Create());
-            command.AddCommand(new GenEmailCommand().Create());
-            command.AddCommand(new GenPhoneCommand().Create());
-            command.AddCommand(new GenPasswordCommand().Create());
-            command.AddCommand(new GenNameCommand().Create());
-            command.AddCommand(new GenCEPCommand().Create());
-            command.AddCommand(new GenBirthDateCommand().Create());
-            return command;
-        }
+        Command command = new("gen", "Gera algum tipo de dado");
+        command.AddCommand(new GenCPFCommand().Create());
+        command.AddCommand(new GenCNPJCommand().Create());
+        command.AddCommand(new GenGuidCommand().Create());
+        command.AddCommand(new GenEmailCommand().Create());
+        command.AddCommand(new GenPhoneCommand().Create());
+        command.AddCommand(new GenPasswordCommand().Create());
+        command.AddCommand(new GenNameCommand().Create());
+        command.AddCommand(new GenCEPCommand().Create());
+        command.AddCommand(new GenBirthDateCommand().Create());
+        return command;
     }
 }
