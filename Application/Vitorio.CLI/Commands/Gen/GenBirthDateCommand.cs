@@ -11,18 +11,16 @@ public class GenBirthDateCommand : ICommandFactory
             new Argument<uint>("age", "Idade da qual será estraída a data de aniversário")
         };
 
-        command.Handler = CommandHandler.Create((uint age, IConsole console) =>
+        command.SetHandler((uint age, IConsole console) =>
         {
             try
             {
                 BirthDate birthDate = new();
                 console.Out.WriteLine(birthDate.ByAge((int)age));
-                return 0;
             }
             catch (Exception)
             {
                 console.Error.WriteLine("Valor de 'age' inválido para geração de data");
-                return 1;
             }
         });
 

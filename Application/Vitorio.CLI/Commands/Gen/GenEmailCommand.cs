@@ -13,12 +13,12 @@ public class GenEmailCommand : ICommandFactory
             new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de e-mails a serem gerados")
         };
 
-        command.Handler = CommandHandler.Create((string provider, string domain, int count, IConsole console) =>
+        command.SetHandler((string provider, string domain, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
                 console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             Random random = new();
@@ -26,8 +26,6 @@ public class GenEmailCommand : ICommandFactory
             {
                 console.Out.WriteLine(new Email(random, provider, domain));
             }
-
-            return 0;
         });
 
         return command;

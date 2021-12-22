@@ -12,12 +12,12 @@ public class GenPasswordCommand : ICommandFactory
             new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de senhas a serem geradas")
         };
 
-        command.Handler = CommandHandler.Create((int length, int count, IConsole console) =>
+        command.SetHandler((int length, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
                 console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             Password password = new(new Random(), length);
@@ -25,15 +25,13 @@ public class GenPasswordCommand : ICommandFactory
             if (!password.IsLengthInRange())
             {
                 console.Error.WriteLine(password.GetLengthOutOfRangeMessage());
-                return 1;
+                return;
             }
 
             for (int index = 0; index < count; index++)
             {
                 console.Out.WriteLine(password.New());
             }
-
-            return 0;
         });
 
         return command;

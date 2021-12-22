@@ -13,12 +13,12 @@ public class GenCEPCommand : ICommandFactory
 
             };
 
-        command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
+        command.SetHandler((bool formated, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
                 console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             Random random = new();
@@ -30,8 +30,6 @@ public class GenCEPCommand : ICommandFactory
                     cep = cep.Format();
                 console.Out.WriteLine(cep);
             }
-
-            return 0;
         });
 
         return command;

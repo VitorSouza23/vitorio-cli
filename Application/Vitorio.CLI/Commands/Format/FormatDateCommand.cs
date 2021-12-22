@@ -17,12 +17,12 @@ namespace Vitorio.CLI.Commands.Format
                 new Option<bool>(new string[] { "--json", "-j" }, () => false, "Formata a data para json")
             };
 
-            command.Handler = CommandHandler.Create((string date, string mask, bool json, IConsole console) =>
+            command.SetHandler((string date, string mask, bool json, IConsole console) =>
             {
                 if (string.IsNullOrWhiteSpace(date))
                 {
                     console.Error.WriteLine("O valor da data não pode ser vazio");
-                    return 1;
+                    return;
                 }
 
                 if (DateTime.TryParse(date, out DateTime theDate))
@@ -37,7 +37,7 @@ namespace Vitorio.CLI.Commands.Format
                         if (string.IsNullOrWhiteSpace(mask))
                         {
                             console.Error.WriteLine("--mask não pode ser vazio");
-                            return 1;
+                            return;
                         }
 
                         console.Out.WriteLine(theDate.ToString(mask));
@@ -46,9 +46,8 @@ namespace Vitorio.CLI.Commands.Format
                 else
                 {
                     console.Error.WriteLine($"O valor {date} não foi reconhecido como uma data válida");
-                    return 1;
+                    return;
                 }
-                return 0;
             });
 
             return command;

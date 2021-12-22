@@ -12,12 +12,12 @@ public class GenNameCommand : ICommandFactory
             new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de nomes a serem gerados")
         };
 
-        command.Handler = CommandHandler.Create((char gender, int count, IConsole console) =>
+        command.SetHandler((char gender, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
                 console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             NameGender nameGender = gender switch
@@ -31,7 +31,7 @@ public class GenNameCommand : ICommandFactory
             if (nameGender == NameGender.NotDefined)
             {
                 console.Error.WriteLine("--gender deve ser 'A' (Todos), 'F' (Feminino) ou 'M' (Masculino)");
-                return 1;
+                return;
             }
 
             Name name = new(new Random());
@@ -39,8 +39,6 @@ public class GenNameCommand : ICommandFactory
             {
                 console.Out.WriteLine(name.New(nameGender));
             }
-
-            return 0;
         });
 
         return command;

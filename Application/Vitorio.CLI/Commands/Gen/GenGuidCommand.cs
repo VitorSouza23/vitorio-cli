@@ -18,19 +18,19 @@ Valores possíveis:
             new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de GUIDs a serem gerados")
         };
 
-        command.Handler = CommandHandler.Create((string format, int count, IConsole console) =>
+        command.SetHandler((string format, int count, IConsole console) =>
         {
             if (string.IsNullOrWhiteSpace(format) || format is not "D" and not "N" and not "B" and not "P" and not "X")
             {
                 console.Error.WriteLine("--format: o valor passado não é válido.");
-                return 1;
+                return;
             }
             else
             {
                 if (((Count)count).IsItNotOnRange())
                 {
                     console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                    return 1;
+                    return;
                 }
 
                 for (int index = 0; index < count; index++)
@@ -38,7 +38,6 @@ Valores possíveis:
                     console.Out.WriteLine(Guid.NewGuid().ToString(format));
                 }
             }
-            return 0;
         });
 
         return command;

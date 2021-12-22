@@ -1,4 +1,9 @@
-﻿using Vitorio.CLI.Commands.About;
+﻿using System.CommandLine.Builder;
+using System.CommandLine.Help;
+using System.CommandLine.Parsing;
+using System.Linq;
+using Spectre.Console;
+using Vitorio.CLI.Commands.About;
 using Vitorio.CLI.Commands.Format;
 using Vitorio.CLI.Commands.Gen;
 
@@ -7,4 +12,16 @@ rootCommand.AddCommand(new AboutCommand().Create());
 rootCommand.AddCommand(new GenCommand().Create());
 rootCommand.AddCommand(new FormatCommand().Create());
 
-return rootCommand.InvokeAsync(args).Result;
+var parser = new CommandLineBuilder(rootCommand)
+    .UseDefaults()
+    .UseHelp(ctx =>
+    {
+        ctx.HelpBuilder.CustomizeLayout(_ =>
+            HelpBuilder.Default
+                .GetLayout()
+                .Skip(1)
+                .Prepend(_ => Spectre.Console.AnsiConsole.Write(new FigletText("Vitorio.CLI"))));
+    })
+    .Build();
+
+return await parser.InvokeAsync(args);

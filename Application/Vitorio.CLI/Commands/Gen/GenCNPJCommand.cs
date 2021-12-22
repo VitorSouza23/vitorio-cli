@@ -12,12 +12,12 @@ public class GenCNPJCommand : ICommandFactory
             new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CNPJs a serem gerados")
         };
 
-        command.Handler = CommandHandler.Create((bool formated, int count, IConsole console) =>
+        command.SetHandler((bool formated, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
                 console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             Random random = new();
@@ -28,8 +28,6 @@ public class GenCNPJCommand : ICommandFactory
                     cnpj = cnpj.Format();
                 console.Out.WriteLine(cnpj);
             }
-
-            return 0;
         });
 
         return command;

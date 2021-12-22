@@ -16,12 +16,12 @@ public class GenPhoneCommand : ICommandFactory
             new Option<bool>(new string[] { "--not-formated", "-nf" }, () => false, "Não formata o número telefônico")
         };
 
-        command.Handler = CommandHandler.Create((PhoneRules phoneRules, int count, IConsole console) =>
+        command.SetHandler((PhoneRules phoneRules, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
                 console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             Phone phone = new(new Random(), phoneRules);
@@ -29,15 +29,13 @@ public class GenPhoneCommand : ICommandFactory
             if (phone.IsNotNumberOfDigitsInRange())
             {
                 console.Error.WriteLine(phone.GetNotInRangeMessage());
-                return 1;
+                return;
             }
 
             for (int index = 0; index < count; index++)
             {
                 console.Out.WriteLine(phone.New());
             }
-
-            return 0;
         });
 
         return command;

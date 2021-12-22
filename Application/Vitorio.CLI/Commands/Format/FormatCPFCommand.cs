@@ -12,12 +12,12 @@ public class FormatCPFCommand : ICommandFactory
             new Option<bool>(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CPF")
         };
 
-        command.Handler = CommandHandler.Create((string cpf, bool remove, IConsole console) =>
+        command.SetHandler((string cpf, bool remove, IConsole console) =>
         {
             if (string.IsNullOrWhiteSpace(cpf))
             {
                 console.Error.WriteLine("cpf não pode ser vazio");
-                return 1;
+                return;
             }
             if (remove)
                 console.Out.WriteLine(Cpf.RemoveFormat(cpf));
@@ -26,12 +26,11 @@ public class FormatCPFCommand : ICommandFactory
                 if (!Cpf.IsCPF(cpf))
                 {
                     console.Error.WriteLine("cpf precisa ser uma sequência de 11 digitos");
-                    return 1;
+                    return;
                 }
                 else
                     console.Out.WriteLine(Cpf.Format(cpf));
             }
-            return 0;
         });
 
         return command;

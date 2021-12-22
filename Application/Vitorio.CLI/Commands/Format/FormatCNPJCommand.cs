@@ -12,12 +12,12 @@ public class FormatCNPJCommand : ICommandFactory
             new Option<bool>(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CNPJ")
         };
 
-        command.Handler = CommandHandler.Create((string cnpj, bool remove, IConsole console) =>
+        command.SetHandler((string cnpj, bool remove, IConsole console) =>
         {
             if (string.IsNullOrWhiteSpace(cnpj))
             {
                 console.Error.WriteLine("cnpj não pode ser vazio");
-                return 1;
+                return;
             }
             if (remove)
                 console.Out.WriteLine(Cnpj.RemoveFormat(cnpj));
@@ -26,12 +26,11 @@ public class FormatCNPJCommand : ICommandFactory
                 if (!Cnpj.IsCnpj(cnpj))
                 {
                     console.Error.WriteLine("cnpj precisa ser uma sequência de 14 digitos");
-                    return 1;
+                    return;
                 }
                 else
                     console.Out.WriteLine(Cnpj.Foramt(cnpj));
             }
-            return 0;
         });
 
         return command;
