@@ -6,10 +6,13 @@ public class FormatCPFCommand : ICommandFactory
 {
     public Command Create()
     {
+        Argument<string> cpf = new("cpf", "CPF a ser formatado");
+        Option<bool> remove = new(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CPF");
+
         Command command = new("cpf", "Formata um CPF com a pontuação padrão")
         {
-            new Argument<string>("cpf", "CPF a ser formatado"),
-            new Option<bool>(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CPF")
+            cpf,
+            remove
         };
 
         command.SetHandler((string cpf, bool remove, IConsole console) =>
@@ -31,7 +34,7 @@ public class FormatCPFCommand : ICommandFactory
                 else
                     console.Out.WriteLine(Cpf.Format(cpf));
             }
-        });
+        }, cpf, remove);
 
         return command;
     }

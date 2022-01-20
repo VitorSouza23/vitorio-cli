@@ -6,10 +6,13 @@ public class FormatCNPJCommand : ICommandFactory
 {
     public Command Create()
     {
+        Argument<string> cnpj = new("cnpj", "CNPJ a ser formatado");
+        Option<bool> remove = new(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CNPJ");
+
         Command command = new("cnpj", "Formata um CNPJ com a pontuação padrão")
         {
-            new Argument<string>("cnpj", "CNPJ a ser formatado"),
-            new Option<bool>(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CNPJ")
+            cnpj,
+            remove
         };
 
         command.SetHandler((string cnpj, bool remove, IConsole console) =>
@@ -31,7 +34,7 @@ public class FormatCNPJCommand : ICommandFactory
                 else
                     console.Out.WriteLine(Cnpj.Foramt(cnpj));
             }
-        });
+        }, cnpj, remove);
 
         return command;
     }

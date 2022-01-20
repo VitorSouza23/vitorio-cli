@@ -6,9 +6,11 @@ public class GenBirthDateCommand : ICommandFactory
 {
     public Command Create()
     {
+        Argument<uint> age = new("age", "Idade da qual será estraída a data de aniversário");
+
         Command command = new("birthdate", "Gera a data de aniversário respecitiva a uma idade")
         {
-            new Argument<uint>("age", "Idade da qual será estraída a data de aniversário")
+            age
         };
 
         command.SetHandler((uint age, IConsole console) =>
@@ -22,7 +24,7 @@ public class GenBirthDateCommand : ICommandFactory
             {
                 console.Error.WriteLine("Valor de 'age' inválido para geração de data");
             }
-        });
+        }, age);
 
         return command;
     }

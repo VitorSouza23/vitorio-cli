@@ -1,3 +1,4 @@
+using System.CommandLine.Binding;
 using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands;
@@ -6,10 +7,13 @@ public class GenNameCommand : ICommandFactory
 {
     public Command Create()
     {
+        Option<char> gender = new(new string[] { "--gender", "-g" }, () => 'A', "Gera nome feminino (F), mascilino (M) ou aleatório (A)");
+        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de nomes a serem gerados");
+
         Command command = new("name", "Gera nome aleatório")
         {
-            new Option<char>(new string[] { "--gender", "-g" }, () => 'A', "Gera nome feminino (F), mascilino (M) ou aleatório (A)"),
-            new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de nomes a serem gerados")
+            gender,
+            count
         };
 
         command.SetHandler((char gender, int count, IConsole console) =>
@@ -39,7 +43,7 @@ public class GenNameCommand : ICommandFactory
             {
                 console.Out.WriteLine(name.New(nameGender));
             }
-        });
+        }, gender, count);
 
         return command;
     }

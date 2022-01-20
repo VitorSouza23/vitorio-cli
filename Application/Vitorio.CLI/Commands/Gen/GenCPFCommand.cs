@@ -6,10 +6,13 @@ public class GenCPFCommand : ICommandFactory
 {
     public Command Create()
     {
+        Option<bool> formated = new(new string[] { "--formated", "-f" }, () => false, "Gera CPF com pontuação");
+        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CPFs a serem gerados");
+
         Command command = new("cpf", "Gera CPF válido")
         {
-            new Option<bool>(new string[] { "--formated", "-f" }, () => false, "Gera CPF com pontuação"),
-            new Option<int>(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CPFs a serem gerados")
+            formated,
+            count
         };
 
         command.SetHandler((bool formated, int count, IConsole console) =>
@@ -28,7 +31,7 @@ public class GenCPFCommand : ICommandFactory
                     cpf = cpf.Format();
                 console.Out.WriteLine(cpf);
             }
-        });
+        }, formated, count);
 
         return command;
     }
