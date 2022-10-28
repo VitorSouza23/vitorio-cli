@@ -8,25 +8,28 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+    types:
+      - closed
 
 jobs:
-  publish:
-    env:
-      PORJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
+    if_merged:
+      if: github.event.pull_request.merged == true
+      env:
+        PORJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
 
-    runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Pack
-      run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore -o out
-    - name: Publish
-      run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate
-    
+      steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Pack
+        run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore -o out
+      - name: Publish
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate
+
     
