@@ -1,7 +1,3 @@
-using System;
-using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.CommandLine.IO;
 using System.Text.Json;
 
 namespace Vitorio.CLI.Commands.Format

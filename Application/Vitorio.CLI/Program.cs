@@ -4,6 +4,7 @@ using System.CommandLine.Parsing;
 using System.Linq;
 using Spectre.Console;
 using Vitorio.CLI.Commands.About;
+using Vitorio.CLI.Commands.Convert;
 using Vitorio.CLI.Commands.Format;
 using Vitorio.CLI.Commands.Gen;
 
@@ -11,6 +12,7 @@ RootCommand rootCommand = new("CLI com ferramentas que podem (ou não) serem út
 rootCommand.AddCommand(new AboutCommand().Create());
 rootCommand.AddCommand(new GenCommand().Create());
 rootCommand.AddCommand(new FormatCommand().Create());
+rootCommand.AddCommand(new ConvertCommand().Create());
 
 var parser = new CommandLineBuilder(rootCommand)
     .UseDefaults()
