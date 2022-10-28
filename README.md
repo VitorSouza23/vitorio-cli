@@ -288,6 +288,27 @@ Exemplo:
 -> "2000-01-01T01:00:00"
 ```
 
+## Comando convert (Conversor)
+Converte um dado de um tipo para outro
+
+### convert image-to-base64
+Converte uma arquivo de imagem para Base64
+
+Argumentos:
+- imagePath: Caminho absoluto do arquivo de imagem (com o nome e extensão do arquivo)
+
+Opções:
+ - **-o, --output**: Especifica o caminho de um arquivo de destino para a saída do base64 [default: empty]
+ 
+Exemplo:
+```
+~$ vitorio convert image-to-base64 /home/image.png
+-> /9j/4AAQSkZJRgABAQAAAQABAAD/...
+
+~$ vitorio convert image-to-base64 /home/image.png -o /home/test.txt
+-> Base64 escrito em: /home/test.txt
+```
+
 # Sobre a CLI
 Todos os dados gerados e manipulados por ela são de total responsabilidade de quem as usa.
 

@@ -8,13 +8,15 @@ public class ConvertImageToBae64Command : ICommandFactory
     public Command Create()
     {
         Argument<string> imagePath = new("imagePath", "Caminho absoluto do arquivo de imagem (com o nome e extensão do arquivo)");
+        Option<string> outputFilePath = new(new string[] { "--output", "-o" }, () => string.Empty, "Especifica o caminho de um arquivo de destino para a saída do base64");
 
         Command command = new("image-to-base64", "Converte uma arquivo de imagem para Base64")
         {
-            imagePath
+            imagePath,
+            outputFilePath
         };
 
-        command.SetHandler(async (string imagePath, IConsole console) =>
+        command.SetHandler(async (string imagePath, string outputFilePath, IConsole console) =>
         {
             if (string.IsNullOrWhiteSpace(imagePath))
             {
@@ -32,15 +34,33 @@ public class ConvertImageToBae64Command : ICommandFactory
             {
                 byte[] imageArray = await File.ReadAllBytesAsync(imagePath, default);
                 string base64 = ToBase64String(imageArray);
-                console.Out.WriteLine(base64);
+
+                if (string.IsNullOrWhiteSpace(outputFilePath))
+                    console.Out.WriteLine(base64);
+                else
+                {
+                    try
+                    {
+                        using var file = File.Open(outputFilePath, FileMode.OpenOrCreate);
+                        using var writer = new StreamWriter(file);
+                        await writer.WriteLineAsync(base64);
+
+                        console.Out.WriteLine($"Base64 escrito em: {outputFilePath}");
+                    }
+                    catch
+                    {
+                        console.Error.WriteLine($"Erro ao escrever no arquivo de saída: {outputFilePath}");
+                        return;
+                    }
+                }
             }
             catch
             {
-                console.Error.WriteLine("Unspected error during image convertion.");
+                console.Error.WriteLine("Erro ao tentar converter a imagem");
                 return;
             }
 
-        }, imagePath);
+        }, imagePath, outputFilePath);
 
         return command;
     }
