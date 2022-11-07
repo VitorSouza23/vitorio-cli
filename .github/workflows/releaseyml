@@ -1,0 +1,29 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  tagged-release:
+      name: "Tagged Release"
+      env:
+        PORJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
+      runs-on: "ubuntu-latest"
+      steps:
+        - uses: actions/checkout@v3
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: 6.0.x
+        - name: Restore dependencies
+          run: dotnet restore
+        - name: Pack
+          run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore -o out
+        - uses: "marvinpinto/action-automatic-releases@latest"
+          with:
+            repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            prerelease: false
+            files: |
+              out/*.nupkg
