@@ -1,6 +1,6 @@
 namespace Vitorio.CLI.Tests;
 
-public class PhoneTests
+public sealed class PhoneTests
 {
     private const int RandomSeed = 123;
     private readonly Random _random;

@@ -26,7 +26,7 @@ public class CEP
 
     public CEP Format()
     {
-        Value = Value.Insert(5, "-");
+        if (Value.Length > 5) Value = Value.Insert(5, "-");
         return this;
     }
 }
