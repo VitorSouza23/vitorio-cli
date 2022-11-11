@@ -1,6 +1,6 @@
 using System.IO;
-using System.Text.Json;
 using System.Linq;
+using System.Text.Json;
 
 namespace Vitorio.CLI.Model;
 
@@ -29,7 +29,7 @@ public class Name
         _lastNames = GetNamesFromJsonFile("lastnames"); ;
     }
 
-    private string[] GetNamesFromJsonFile(string fileName)
+    private static string[] GetNamesFromJsonFile(string fileName)
     {
         string currentDirectory = AppContext.BaseDirectory;
         string jsonContent = File.ReadAllText(Path.Combine(currentDirectory, "Resources", $"{fileName}.json"));
@@ -43,7 +43,7 @@ public class Name
             NameGender.All => _femaleNames.Concat(_maleNames).ToArray(),
             NameGender.Feminine => _femaleNames,
             NameGender.Masculine => _maleNames,
-            _ => new string[0]
+            _ => Array.Empty<string>()
         };
 
         string firstName = names[_random.Next(names.Length)];

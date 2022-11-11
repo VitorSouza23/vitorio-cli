@@ -22,10 +22,10 @@ public class Count
 
     }
 
-    public static Count Default() => new Count(1);
+    public static Count Default() => new(1);
 
     public static implicit operator int(Count count) => count.Value;
-    public static implicit operator Count(int count) => new Count(count);
+    public static implicit operator Count(int count) => new(count);
 
     public bool IsItOnRange() => Value >= MinValue && Value <= MaxValue;
     public bool IsItNotOnRange() => !IsItOnRange();

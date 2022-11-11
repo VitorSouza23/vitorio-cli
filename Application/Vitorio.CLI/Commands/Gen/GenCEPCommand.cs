@@ -9,7 +9,7 @@ public class GenCEPCommand : ICommandFactory
         Option<bool> formated = new(new string[] { "--formated", "-f" }, () => false, "Gera CEP com pontuação");
         Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CEPs a serem gerados");
 
-        Command command = new Command("cep", "Gera CEPs (válidos ou não)")
+        Command command = new("cep", "Gera CEPs (válidos ou não)")
         {
             formated,
             count

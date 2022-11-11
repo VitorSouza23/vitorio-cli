@@ -19,14 +19,14 @@ public class Phone
 
     public bool IsNumberOfDigitsInRange() => _rules.NumberOfDigits is >= MIN_LENGTH and <= MAX_LENGTH;
     public bool IsNotNumberOfDigitsInRange() => !IsNumberOfDigitsInRange();
-    public string GetNotInRangeMessage() => "--number-of-digits deve ser entre 3 a 10";
+    public static string GetNotInRangeMessage() => "--number-of-digits deve ser entre 3 a 10";
 
     public string New()
     {
         StringBuilder stringBuilder = new();
         for (int index = 0; index < _rules.NumberOfDigits; index++)
         {
-            stringBuilder.Append("9");
+            stringBuilder.Append('9');
         }
 
         int maxNumberValue = int.Parse(stringBuilder.ToString());
@@ -37,13 +37,13 @@ public class Phone
         if (_rules.CodeCountry > 0)
         {
             stringBuilder.Append(_rules.NotFormated ? _rules.CodeCountry : $"+{_rules.CodeCountry}");
-            stringBuilder.Append(" ");
+            stringBuilder.Append(' ');
         }
 
         if (_rules.Ddd > 0)
         {
             stringBuilder.Append(_rules.NotFormated ? _rules.Ddd : $"({_rules.Ddd})");
-            stringBuilder.Append(" ");
+            stringBuilder.Append(' ');
         }
 
         if (_rules.NotFormated is false && _rules.NumberOfDigits >= 7)

@@ -1,10 +1,10 @@
 namespace Vitorio.CLI.Model;
 
-public class BirthDate
+public static class BirthDate
 {
-    public string ByAge(int age)
+    public static string ByAge(uint age)
     {
-        DateTime bithDate = DateTime.Now.AddYears(age * -1);
+        DateTime bithDate = DateTime.Now.AddYears((int)age * -1);
         return bithDate.ToString("d");
     }
 }

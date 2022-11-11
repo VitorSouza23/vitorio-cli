@@ -36,7 +36,7 @@ public class GenPhoneCommand : ICommandFactory
 
             if (phone.IsNotNumberOfDigitsInRange())
             {
-                console.Error.WriteLine(phone.GetNotInRangeMessage());
+                console.Error.WriteLine(Phone.GetNotInRangeMessage());
                 return;
             }
 

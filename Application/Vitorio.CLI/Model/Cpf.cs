@@ -51,14 +51,14 @@ public class Cpf
         return this;
     }
 
-    private int CalculateCheckDigit(int[] multiplier, string seed)
+    private static int CalculateCheckDigit(int[] multiplier, string seed)
     {
-        int remainder = 0, sum = 0;
+        int sum = 0;
 
         for (int index = 0; index < multiplier.Length; index++)
             sum += int.Parse(seed[index].ToString()) * multiplier[index];
 
-        remainder = sum % 11;
+        int remainder = sum % 11;
 
         return remainder < 2 ? 0 : 11 - remainder;
     }

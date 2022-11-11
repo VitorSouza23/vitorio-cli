@@ -52,7 +52,7 @@ public class Cnpj
         return this;
     }
 
-    private int CalculateCheckDigit(int[] multiplier, string seed)
+    private static int CalculateCheckDigit(int[] multiplier, string seed)
     {
         int result = 0;
         for (int index = 0; index < multiplier.Length; index++)
