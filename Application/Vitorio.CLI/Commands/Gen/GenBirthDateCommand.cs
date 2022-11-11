@@ -17,7 +17,7 @@ public class GenBirthDateCommand : ICommandFactory
         {
             try
             {
-                string birthDate = BirthDate.ByAge(age);
+                string birthDate = new BirthDate().ByAge(age);
                 console.Out.WriteLine(birthDate);
             }
             catch (Exception)
