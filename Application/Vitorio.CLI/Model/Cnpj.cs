@@ -7,15 +7,16 @@ public class Cnpj
     private readonly Random _random;
     public string Value { get; private set; }
 
-    public Cnpj(Random random)
+    public Cnpj(Random random, bool autoGenerateValue = true)
     {
         _random = random;
-        Value = string.Empty;
+        Value = autoGenerateValue ? New() : string.Empty;
     }
 
     public static bool IsCnpj(string cnpj)
     {
-        return Regex.IsMatch(cnpj, "^[0-9]{14}$");
+        var cnpjUnformated = RemoveFormat(cnpj);
+        return Regex.IsMatch(cnpjUnformated, "^[0-9]{14}$");
     }
 
     public static string RemoveFormat(string cnpj)
