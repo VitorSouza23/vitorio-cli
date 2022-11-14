@@ -14,10 +14,23 @@ public sealed class CEPTests
     public void Should_Create_New_CEP()
     {
         // Given
-        var cep = new CEP(_random);
+        var cep = new CEP(_random, false);
 
         // When
         var result = (string)cep.New();
+
+        // Then
+        result.Should().Be("98455690");
+    }
+
+    [Fact]
+    public void Should_Create_New_PutInitializeValue_CEP()
+    {
+        // Given
+        var cep = new CEP(_random);
+
+        // When
+        var result = cep.ToString();
 
         // Then
         result.Should().Be("98455690");
@@ -30,7 +43,7 @@ public sealed class CEPTests
         var cep = new CEP(_random);
 
         // When
-        var result = (string)cep.New().Format();
+        var result = (string)cep.Format();
 
         // Then
         result.Should().Be("98455-690");
@@ -40,10 +53,10 @@ public sealed class CEPTests
     public void Should_Create_Empty()
     {
         // Given
-        var cep = new CEP(_random);
+        var cep = new CEP(_random, false);
 
         // When
-        var result = (string)cep;
+        var result = cep.ToString();
 
         // Then
         result.Should().BeEmpty();
@@ -53,10 +66,10 @@ public sealed class CEPTests
     public void Should_Create_Empty_Formated()
     {
         // Given
-        var cep = new CEP(_random);
+        var cep = new CEP(_random, false);
 
         // When
-        var result = (string)cep.Format();
+        var result = cep.Format().ToString();
 
         // Then
         result.Should().BeEmpty();

@@ -27,7 +27,7 @@ public class GenCEPCommand : ICommandFactory
 
             for (int index = 0; index < count; index++)
             {
-                CEP cep = new CEP(random).New();
+                CEP cep = new(random);
                 if (formated)
                     cep = cep.Format();
                 console.Out.WriteLine(cep);

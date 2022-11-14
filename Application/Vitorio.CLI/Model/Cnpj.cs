@@ -7,10 +7,10 @@ public class Cnpj
     private readonly Random _random;
     public string Value { get; private set; }
 
-    public Cnpj(Random random, bool autoGenerateValue = true)
+    public Cnpj(Random random, bool putInitializeValue = true)
     {
         _random = random;
-        Value = autoGenerateValue ? New() : string.Empty;
+        Value = putInitializeValue ? New() : string.Empty;
     }
 
     public static bool IsCnpj(string cnpj)

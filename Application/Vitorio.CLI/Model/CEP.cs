@@ -5,10 +5,10 @@ public class CEP
     private readonly Random _random;
     public string Value { get; private set; }
 
-    public CEP(Random random)
+    public CEP(Random random, bool putInitializeValue = true)
     {
         _random = random;
-        Value = string.Empty;
+        Value = putInitializeValue ? New() : string.Empty;
     }
 
     public static implicit operator string(CEP cep) => cep.Value;
