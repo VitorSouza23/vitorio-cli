@@ -36,6 +36,7 @@ public class Name
         var namesCollection = JsonSerializer.Deserialize<NameCollection>(jsonContent);
         return namesCollection.Names;
     }
+
     public string New(NameGender gender = NameGender.All)
     {
         string[] names = gender switch
