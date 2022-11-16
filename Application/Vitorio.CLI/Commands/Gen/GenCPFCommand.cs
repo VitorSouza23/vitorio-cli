@@ -26,7 +26,7 @@ public class GenCPFCommand : ICommandFactory
             Random random = new();
             for (int index = 0; index < count; index++)
             {
-                Cpf cpf = new Cpf(random).New();
+                Cpf cpf = new(random);
                 if (formated)
                     cpf = cpf.Format();
                 console.Out.WriteLine(cpf);
