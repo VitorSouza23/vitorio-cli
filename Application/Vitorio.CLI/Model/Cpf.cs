@@ -6,10 +6,10 @@ public class Cpf
 {
     private readonly Random _random;
 
-    public Cpf(Random random)
+    public Cpf(Random random, bool putInitializeValue = true)
     {
         _random = random;
-        Value = string.Empty;
+        Value = putInitializeValue ? New() : string.Empty;
     }
 
     public string Value { get; private set; }
@@ -18,6 +18,9 @@ public class Cpf
 
     public static string Format(string cpf)
     {
+        if (string.IsNullOrWhiteSpace(cpf))
+            return string.Empty;
+
         const string cpfMask = @"000\.000\.000\-00";
         return Convert.ToUInt64(cpf).ToString(cpfMask);
     }
@@ -29,7 +32,11 @@ public class Cpf
 
     public static bool IsCPF(string cpf)
     {
-        return Regex.IsMatch(cpf, "^[0-9]{11}$");
+        if (string.IsNullOrWhiteSpace(cpf))
+            return false;
+
+        var clenaedCpf = RemoveFormat(cpf);
+        return Regex.IsMatch(clenaedCpf, "^[0-9]{11}$");
     }
 
     public override string ToString()
@@ -51,14 +58,14 @@ public class Cpf
         return this;
     }
 
-    private int CalculateCheckDigit(int[] multiplier, string seed)
+    private static int CalculateCheckDigit(int[] multiplier, string seed)
     {
-        int remainder = 0, sum = 0;
+        int sum = 0;
 
         for (int index = 0; index < multiplier.Length; index++)
             sum += int.Parse(seed[index].ToString()) * multiplier[index];
 
-        remainder = sum % 11;
+        int remainder = sum % 11;
 
         return remainder < 2 ? 0 : 11 - remainder;
     }

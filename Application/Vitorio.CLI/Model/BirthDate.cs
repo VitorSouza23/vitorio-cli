@@ -1,10 +1,20 @@
 namespace Vitorio.CLI.Model;
 
-public class BirthDate
+public sealed class BirthDate
 {
-    public string ByAge(int age)
+    private readonly DateTime? _referenceDateTime;
+
+    public BirthDate() { }
+
+    public BirthDate(DateTime referenceDateTime)
     {
-        DateTime bithDate = DateTime.Now.AddYears(age * -1);
+        _referenceDateTime = referenceDateTime;
+    }
+
+    public string ByAge(uint age)
+    {
+        var referenceDateTime = _referenceDateTime ?? DateTime.Now;
+        DateTime bithDate = referenceDateTime.AddYears((int)age * -1);
         return bithDate.ToString("d");
     }
 }

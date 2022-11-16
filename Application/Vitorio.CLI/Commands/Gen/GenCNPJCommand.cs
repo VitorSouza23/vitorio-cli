@@ -26,7 +26,7 @@ public class GenCNPJCommand : ICommandFactory
             Random random = new();
             for (int index = 0; index < count; index++)
             {
-                Cnpj cnpj = new Cnpj(random).New();
+                Cnpj cnpj = new(random);
                 if (formated)
                     cnpj = cnpj.Format();
                 console.Out.WriteLine(cnpj);

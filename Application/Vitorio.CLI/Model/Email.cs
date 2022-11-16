@@ -31,7 +31,7 @@ public class Email
         return Value;
     }
 
-    private string RandomString(Random random, int length)
+    private static string RandomString(Random random, int length)
     {
         const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
         return new string(Enumerable.Repeat(chars, length)

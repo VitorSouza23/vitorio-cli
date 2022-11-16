@@ -27,7 +27,7 @@ public class GenPasswordCommand : ICommandFactory
 
             if (!password.IsLengthInRange())
             {
-                console.Error.WriteLine(password.GetLengthOutOfRangeMessage());
+                console.Error.WriteLine(Password.GetLengthOutOfRangeMessage());
                 return;
             }
 

@@ -7,15 +7,16 @@ public class Cnpj
     private readonly Random _random;
     public string Value { get; private set; }
 
-    public Cnpj(Random random)
+    public Cnpj(Random random, bool putInitializeValue = true)
     {
         _random = random;
-        Value = string.Empty;
+        Value = putInitializeValue ? New() : string.Empty;
     }
 
     public static bool IsCnpj(string cnpj)
     {
-        return Regex.IsMatch(cnpj, "^[0-9]{14}$");
+        var cnpjUnformated = RemoveFormat(cnpj);
+        return Regex.IsMatch(cnpjUnformated, "^[0-9]{14}$");
     }
 
     public static string RemoveFormat(string cnpj)
@@ -52,7 +53,7 @@ public class Cnpj
         return this;
     }
 
-    private int CalculateCheckDigit(int[] multiplier, string seed)
+    private static int CalculateCheckDigit(int[] multiplier, string seed)
     {
         int result = 0;
         for (int index = 0; index < multiplier.Length; index++)

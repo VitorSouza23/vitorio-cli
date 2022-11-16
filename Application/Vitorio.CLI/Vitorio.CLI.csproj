@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;net7.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
 
     <PackAsTool>true</PackAsTool>
@@ -10,7 +10,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
     <PackageId>Vitorio.CLI</PackageId>
-    <Version>1.1.5</Version>
+    <Version>1.1.6</Version>
     <Authors>VitorSouza23</Authors>
     <Description>
       Essa CLI foi baseada em necessidades para geração e manipulação de dados durante o trabalho.

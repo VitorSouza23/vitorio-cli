@@ -10,7 +10,7 @@ Vitorio CLI (não me julguem, não sou bons com nomes) nasceu para supririr essa
 # Instalação
 
 ## Requisitos
-- [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0) ou superior
+- [.NET 5, 6 ou 7](https://dotnet.microsoft.com/en-us/)
 
 ## dotnet CLI
 Use o CLI do dotnet para realizar a instalação da ferramente

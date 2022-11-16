@@ -11,7 +11,7 @@ public class Password
     private readonly Random _random;
     private readonly int _length;
 
-    public Password(Random random, int length)
+    public Password(Random random, int length = 8)
     {
         _random = random;
         _length = length;
@@ -19,7 +19,7 @@ public class Password
 
     public bool IsLengthInRange() => _length is >= MIN_LENGTH and <= MAX_LENGTH;
 
-    public string GetLengthOutOfRangeMessage() => $"--length deve ser maior que {MIN_LENGTH} e menor que {MAX_LENGTH}";
+    public static string GetLengthOutOfRangeMessage() => $"--length deve ser maior que {MIN_LENGTH} e menor que {MAX_LENGTH}";
 
     public string New()
     {
