@@ -11,7 +11,7 @@ public class Password
     private readonly Random _random;
     private readonly int _length;
 
-    public Password(Random random, int length)
+    public Password(Random random, int length = 8)
     {
         _random = random;
         _length = length;
