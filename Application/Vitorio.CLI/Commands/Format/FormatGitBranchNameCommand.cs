@@ -2,7 +2,7 @@ using Vitorio.CLI.Model;
 
 namespace Vitorio.CLI.Commands.Format;
 
-public sealed class FormatGitBranchName : ICommandFactory
+public sealed class FormatGitBranchNameCommand : ICommandFactory
 {
     public Command Create()
     {
