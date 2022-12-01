@@ -288,25 +288,69 @@ Exemplo:
 -> "2000-01-01T01:00:00"
 ```
 
-## Comando convert (Conversor)
-Converte um dado de um tipo para outro
-
-### convert image-to-base64
-Converte uma arquivo de imagem para Base64
+### format gitBranchName
+Recebe uma entrada de texto e formata seguindo o padrão de nomes de branch do Git
 
 Argumentos:
-- imagePath: Caminho absoluto do arquivo de imagem (com o nome e extensão do arquivo)
+- input: Uma entreda que será formatada com o padrão de nome de branch do Git
 
 Opções:
- - **-o, --output**: Especifica o caminho de um arquivo de destino para a saída do base64 [default: empty]
+ - **-p, --prefix**: Prefixo que será adicionado ao nome da bracnh separado po '/' [default: empty]
  
 Exemplo:
 ```
-~$ vitorio convert image-to-base64 /home/image.png
+~$ vitorio format gitBranchName "This is a test"
+-> this-is-a-test
+
+~$ vitorio format gitBranchName "This is a test" -p "This is a prefix"
+-> this-is-a-prefix/this-is-a-test
+```
+
+## Comando convert (Conversor)
+Converte um dado de um tipo para outro
+
+### convert toBase64
+Converte uma entrada para codificação Base64
+
+Argumentos:
+- input: Uma entreda de texto para ser codificada em base64
+
+Opções:
+ - **-o, --output**: Especifica o caminho de um arquivo de destino para a saída do base64 [default: empty]
+ - **-f, --file**: Caminho absoluto do arquivo (com o nome e extensão do arquivo)
+ 
+Exemplo:
+```
+~$ vitorio convert toBase64 "Test"
+-> VGVzdA==
+
+~$ vitorio convert toBase64 -f /home/image.png
 -> /9j/4AAQSkZJRgABAQAAAQABAAD/...
 
-~$ vitorio convert image-to-base64 /home/image.png -o /home/test.txt
+~$ vitorio convert toBase64 -f /home/image.png -o /home/test.txt
 -> Base64 escrito em: /home/test.txt
+```
+
+### convert fromBase64
+Converte uma entrada para decodificação Base64
+
+Argumentos:
+- input: Uma entreda de texto base64 para ser decodificada
+
+Opções:
+ - **-o, --output**: Especifica o caminho de um arquivo de destino para a saída do arquivo decodificado [default: empty]
+ - **-f, --file**: Caminho absoluto do arquivo base64 (com o nome e extensão do arquivo)
+ 
+Exemplo:
+```
+~$ vitorio convert fromBase64 "VGVzdA=="
+-> Test
+
+~$ vitorio convert fromBase64 -f /home/testBase64.txt
+-> Test
+
+~$ vitorio convert fromBase64 -f /home/testeBase64.txt -o /home/test.txt
+-> Conteúdo escrito em: /home/test.txt
 ```
 
 # Sobre a CLI

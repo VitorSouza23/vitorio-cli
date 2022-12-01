@@ -8,6 +8,7 @@ public class FormatCommand : ICommandFactory
         command.AddCommand(new FormatCPFCommand().Create());
         command.AddCommand(new FormatCNPJCommand().Create());
         command.AddCommand(new FormatDateCommand().Create());
+        command.AddCommand(new FormatGitBranchNameCommand().Create());
         return command;
     }
 }
