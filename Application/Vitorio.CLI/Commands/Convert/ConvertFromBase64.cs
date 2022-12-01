@@ -4,16 +4,15 @@ using static System.Convert;
 
 namespace Vitorio.CLI.Commands.Convert;
 
-public class ConvertToBae64Command : ICommandFactory
+public sealed class ConvertFromBae64Command : ICommandFactory
 {
     public Command Create()
     {
+        Argument<string> input = new("input", () => string.Empty, "Uma entreda de texto base64 para ser decodificada");
+        Option<string> file = new(new string[] { "--file", "-f" }, "Caminho absoluto do arquivo base64 (com o nome e extensão do arquivo)");
+        Option<string> outputFilePath = new(new string[] { "--output", "-o" }, () => string.Empty, "Especifica o caminho de um arquivo de destino para a saída do arquivo decodificado");
 
-        Argument<string> input = new("input", () => string.Empty, "Uma entreda de texto para ser codificada em base64");
-        Option<string> file = new(new string[] { "--file", "-f" }, "Caminho absoluto do arquivo (com o nome e extensão do arquivo)");
-        Option<string> outputFilePath = new(new string[] { "--output", "-o" }, () => string.Empty, "Especifica o caminho de um arquivo de destino para a saída do base64");
-
-        Command command = new("toBase64", "Converte uma entrada para codificação Base64")
+        Command command = new("fromBase64", "Converte uma entrada para decodificação Base64")
         {
             input,
             file,
@@ -24,7 +23,7 @@ public class ConvertToBae64Command : ICommandFactory
         {
             try
             {
-                string base64 = string.Empty;
+                string content = string.Empty;
                 if (string.IsNullOrWhiteSpace(file) is false)
                 {
                     if (File.Exists(file) is false)
@@ -33,26 +32,29 @@ public class ConvertToBae64Command : ICommandFactory
                         return;
                     }
 
-                    byte[] contentArray = await File.ReadAllBytesAsync(file, default);
-                    base64 = ToBase64String(contentArray);
+                    byte[] imageArray = await File.ReadAllBytesAsync(file, default);
+                    content = Encoding.UTF8.GetString(imageArray);
+                    var contentArray = FromBase64String(content);
+                    content = Encoding.UTF8.GetString(contentArray);
                 }
                 else
                 {
-                    base64 = ToBase64String(Encoding.UTF8.GetBytes(input));
+                    var contentArray = FromBase64String(input);
+                    content = Encoding.UTF8.GetString(contentArray);
                 }
 
 
                 if (string.IsNullOrWhiteSpace(outputFilePath))
-                    console.Out.WriteLine(base64);
+                    console.Out.WriteLine(content);
                 else
                 {
                     try
                     {
                         using var outputFile = File.Open(outputFilePath, FileMode.OpenOrCreate);
                         using var writer = new StreamWriter(outputFile);
-                        await writer.WriteLineAsync(base64);
+                        await writer.WriteLineAsync(content);
 
-                        console.Out.WriteLine($"Base64 escrito em: {outputFilePath}");
+                        console.Out.WriteLine($"Conteúdo escrito em: {outputFilePath}");
                     }
                     catch
                     {
