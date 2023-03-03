@@ -288,22 +288,67 @@ Exemplo:
 -> "2000-01-01T01:00:00"
 ```
 
-### format gitBranchName
+### format string 
+Formata strings de acordo com um padrão
+
+Argumentos:
+- input: A string a ser formatada
+
+Opções:
+ - **-u, --upper**: Formata a string em caixa alta [default: False]
+ - **-l, --lower**: Formata a string em letras minúsculas [default: False]
+ 
+Exemplo:
+```
+~$ vitorio format string "This is a test" -u
+-> THIS IS A TEST
+
+~$ vitorio format string "This is a test" -l
+-> this is a test
+```
+
+### format string git-branch
 Recebe uma entrada de texto e formata seguindo o padrão de nomes de branch do Git
 
 Argumentos:
-- input: Uma entreda que será formatada com o padrão de nome de branch do Git
+- input: Uma entrada que será formatada com o padrão de nome de branch do Git
 
 Opções:
  - **-p, --prefix**: Prefixo que será adicionado ao nome da bracnh separado po '/' [default: empty]
  
 Exemplo:
 ```
-~$ vitorio format gitBranchName "This is a test"
+~$ vitorio format string git-branch "This is a test"
 -> this-is-a-test
 
-~$ vitorio format gitBranchName "This is a test" -p "This is a prefix"
+~$ vitorio format string git-branch "This is a test" -p "This is a prefix"
 -> this-is-a-prefix/this-is-a-test
+```
+
+### format string list
+Formata os itens de uma lista de strings de acordo com um padrão
+
+Argumentos:
+- input: Uma lista de strings a ser formatada
+
+Opções:
+ - **sp, --separator**: O separador de cada item da lista [default: "\n"]
+ - **-p, --prefix**: Prefixo a ser colocado em todos os itens da lista [default: ""]
+ - **s, --suffix**: Sufixo a ser colocado em todos os itens da lista [default: ""]
+ 
+Exemplo:
+```
+~$ vitorio format string list -sp "," -s " " "AAA,BBB,CCC"
+-> AAA 
+-> BBB 
+-> CCC 
+
+~$ vitorio format string list -p "\"" -s "\"," "AAA
+> BBB
+> CCC"
+-> "AAA",
+-> "BBB",
+-> "CCC",
 ```
 
 ## Comando convert (Conversor)

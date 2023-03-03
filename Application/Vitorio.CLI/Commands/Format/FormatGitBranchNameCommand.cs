@@ -9,7 +9,7 @@ public sealed class FormatGitBranchNameCommand : ICommandFactory
         Argument<string> input = new("input", "Uma entreda que será formatada com o padrão de nome de branch do Git");
         Option<string> prefix = new(new string[] { "--prefix", "-p" }, () => string.Empty, "Prefixo que será adicionado ao nome da bracnh separado po '/'");
 
-        Command command = new("gitBranchName", "Recebe uma entrada de texto e formata seguindo o padrão de nomes de branch do Git")
+        Command command = new("git-branch", "Recebe uma entrada de texto e formata seguindo o padrão de nomes de branch do Git")
         {
             input,
             prefix
