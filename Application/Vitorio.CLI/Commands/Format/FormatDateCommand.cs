@@ -6,7 +6,7 @@ namespace Vitorio.CLI.Commands.Format
     {
         public Command Create()
         {
-            Argument<string> date = new("date", "Valor da data a ser formatada");
+            Argument<string> date = new("date", () => "now", "Valor da data a ser formatada [\"now\" para usar a data atual do sistema, \"utc\" para usar a data UTC atual]");
             Option<string> mask = new(new string[] { "--mask", "-m" }, () => "dd/MM/yyyy hh:mm:ss", "Máscara para o formatação da data");
             Option<bool> json = new(new string[] { "--json", "-j" }, () => false, "Formata a data para json");
 
@@ -25,7 +25,14 @@ namespace Vitorio.CLI.Commands.Format
                     return;
                 }
 
-                if (DateTime.TryParse(date, out DateTime theDate))
+                string dataInput = date switch
+                {
+                    "now" => DateTime.Now.ToString(),
+                    "utc" => DateTime.UtcNow.ToString(),
+                    _ => date
+                };
+
+                if (DateTime.TryParse(dataInput, out DateTime theDate))
                 {
                     if (json)
                     {

@@ -267,7 +267,7 @@ Exemplo:
 Formate uma data de acordo com uma máscara
 
 Argumentos:
-- date: Valor da data a ser formatada
+- date: Valor da data a ser formatada ["now" para usar a data atual do sistema, "utc" para usar a data UTC atual] [default: now]
 
 Opções:
  - **-m, --mask <mask>**: Máscara para o formatação da data [default: dd/MM/yyyy hh:mm:ss]
