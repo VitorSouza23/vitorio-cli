@@ -19,7 +19,7 @@ public class Password
 
     public bool IsLengthInRange() => _length is >= MIN_LENGTH and <= MAX_LENGTH;
 
-    public static string GetLengthOutOfRangeMessage() => $"--length deve ser maior que {MIN_LENGTH} e menor que {MAX_LENGTH}";
+    public static string GetLengthOutOfRangeMessage() => $"--length must be greater than {MIN_LENGTH} and less than {MAX_LENGTH}";
 
     public string New()
     {

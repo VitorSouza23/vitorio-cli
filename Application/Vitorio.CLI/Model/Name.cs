@@ -1,5 +1,4 @@
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 namespace Vitorio.CLI.Model;
@@ -41,10 +40,10 @@ public class Name
     {
         string[] names = gender switch
         {
-            NameGender.All => _femaleNames.Concat(_maleNames).ToArray(),
+            NameGender.All => [.. _femaleNames, .. _maleNames],
             NameGender.Feminine => _femaleNames,
             NameGender.Masculine => _maleNames,
-            _ => Array.Empty<string>()
+            _ => []
         };
 
         string firstName = names[_random.Next(names.Length)];

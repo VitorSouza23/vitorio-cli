@@ -6,16 +6,16 @@ public class GenCNPJCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<bool> formated = new(new string[] { "--formated", "-f" }, () => false, "Gera CNPJ com pontuação");
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CNPJs a serem gerados");
+        Option<bool> formatted = new(["--formatted", "-f"], () => false, "Generate CNPJ with punctuation");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of CNPJs to be generated");
 
-        Command command = new("cnpj", "Gera CNPJ válido")
+        Command command = new("cnpj", "Generates valid CNPJ")
         {
-            formated,
+            formatted,
             count
         };
 
-        command.SetHandler((bool formated, int count, IConsole console) =>
+        command.SetHandler((bool formatted, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
@@ -27,11 +27,11 @@ public class GenCNPJCommand : ICommandFactory
             for (int index = 0; index < count; index++)
             {
                 Cnpj cnpj = new(random);
-                if (formated)
+                if (formatted)
                     cnpj = cnpj.Format();
                 console.Out.WriteLine(cnpj);
             }
-        }, formated, count);
+        }, formatted, count);
 
         return command;
     }

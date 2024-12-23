@@ -6,10 +6,10 @@ public class FormatCPFCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> cpf = new("cpf", "CPF a ser formatado");
-        Option<bool> remove = new(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CPF");
+        Argument<string> cpf = new("cpf", "CPF to be formatted");
+        Option<bool> remove = new(["--remove", "-r"], () => false, "Remove CPF formatting");
 
-        Command command = new("cpf", "Formata um CPF com a pontuação padrão")
+        Command command = new("cpf", "Formats a CPF with standard punctuation")
         {
             cpf,
             remove
@@ -19,7 +19,7 @@ public class FormatCPFCommand : ICommandFactory
         {
             if (string.IsNullOrWhiteSpace(cpf))
             {
-                console.Error.WriteLine("cpf não pode ser vazio");
+                console.Error.WriteLine("CPF cannot be empty");
                 return;
             }
             if (remove)
@@ -28,7 +28,7 @@ public class FormatCPFCommand : ICommandFactory
             {
                 if (!Cpf.IsCPF(cpf))
                 {
-                    console.Error.WriteLine("cpf precisa ser uma sequência de 11 digitos");
+                    console.Error.WriteLine("CPF must be a sequence of 11 digits");
                     return;
                 }
                 else

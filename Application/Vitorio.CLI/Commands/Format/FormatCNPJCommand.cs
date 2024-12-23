@@ -6,10 +6,10 @@ public class FormatCNPJCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> cnpj = new("cnpj", "CNPJ a ser formatado");
-        Option<bool> remove = new(new string[] { "--remove", "-r" }, () => false, "Remove a formatação do CNPJ");
+        Argument<string> cnpj = new("cnpj", "CNPJ to be formatted");
+        Option<bool> remove = new(["--remove", "-r"], () => false, "Remove CNPJ formatting");
 
-        Command command = new("cnpj", "Formata um CNPJ com a pontuação padrão")
+        Command command = new("cnpj", "Formats a CNPJ with standard punctuation")
         {
             cnpj,
             remove
@@ -19,7 +19,7 @@ public class FormatCNPJCommand : ICommandFactory
         {
             if (string.IsNullOrWhiteSpace(cnpj))
             {
-                console.Error.WriteLine("cnpj não pode ser vazio");
+                console.Error.WriteLine("CNPJ cannot be empty");
                 return;
             }
             if (remove)
@@ -28,11 +28,11 @@ public class FormatCNPJCommand : ICommandFactory
             {
                 if (!Cnpj.IsCnpj(cnpj))
                 {
-                    console.Error.WriteLine("cnpj precisa ser uma sequência de 14 digitos");
+                    console.Error.WriteLine("CNPJ must be a sequence of 14 digits");
                     return;
                 }
                 else
-                    console.Out.WriteLine(Cnpj.Foramt(cnpj));
+                    console.Out.WriteLine(Cnpj.Format(cnpj));
             }
         }, cnpj, remove);
 

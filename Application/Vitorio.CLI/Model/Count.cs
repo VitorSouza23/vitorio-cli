@@ -1,21 +1,14 @@
 namespace Vitorio.CLI.Model;
 
-public class Count
+public class Count(int value)
 {
     public const int DefaultMaxValue = 1000;
     public const int DefaultMinValue = 1;
 
-    public int MaxValue { get; set; }
-    public int MinValue { get; set; }
+    public int MaxValue { get; set; } = DefaultMaxValue;
+    public int MinValue { get; set; } = DefaultMinValue;
 
-    public int Value { get; private set; }
-
-    public Count(int value)
-    {
-        Value = value;
-        MaxValue = DefaultMaxValue;
-        MinValue = DefaultMinValue;
-    }
+    public int Value { get; private set; } = value;
 
     public Count(string value) : this(int.Parse(value))
     {

@@ -70,7 +70,7 @@ public sealed class PhoneTests
     public void Should_Crete_New_Phone_Number_With_No_Formating()
     {
         // Given
-        var phoneRules = new PhoneRules(0, 0, 9, NotFormated: true);
+        var phoneRules = new PhoneRules(0, 0, 9, NotFormatted: true);
         var phone = new Phone(_random, phoneRules);
 
         // When
@@ -84,7 +84,7 @@ public sealed class PhoneTests
     public void Should_Crete_New_Phone_Number_With_All_Options()
     {
         // Given
-        var phoneRules = new PhoneRules(55, 11, 9, NotFormated: false);
+        var phoneRules = new PhoneRules(55, 11, 9, NotFormatted: false);
         var phone = new Phone(_random, phoneRules);
 
         // When
@@ -98,7 +98,7 @@ public sealed class PhoneTests
     public void Should_Crete_New_Phone_Number_With_All_Options_Not_Formated()
     {
         // Given
-        var phoneRules = new PhoneRules(55, 11, 9, NotFormated: true);
+        var phoneRules = new PhoneRules(55, 11, 9, NotFormatted: true);
         var phone = new Phone(_random, phoneRules);
 
         // When

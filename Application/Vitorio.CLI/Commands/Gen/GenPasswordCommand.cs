@@ -6,10 +6,10 @@ public class GenPasswordCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<int> length = new(new string[] { "--length", "-l" }, () => 8, "Número de caracteres da senha (Min: 3, Max: 16)");
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de senhas a serem geradas");
+        Option<int> length = new(["--length", "-l"], () => 8, "Number of password characters (Min: 3, Max: 16)");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of passwords to be generated");
 
-        Command command = new("password", "Gera senha com caracteres aleatórios")
+        Command command = new("password", "Generate password with random characters")
         {
             length,
             count

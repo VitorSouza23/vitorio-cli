@@ -43,7 +43,7 @@ public class CNPJTests
         var cnpj = new Cnpj(_random);
 
         // When
-        var result = Cnpj.Foramt(cnpj.ToString());
+        var result = Cnpj.Format(cnpj.ToString());
 
         // Then
         result.Should().Be("98.455.690/0001-78");

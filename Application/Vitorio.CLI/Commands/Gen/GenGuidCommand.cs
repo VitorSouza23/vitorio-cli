@@ -6,19 +6,19 @@ public class GenGuidCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<string> format = new(new string[] { "--format", "-f" }, () => "D",
+        Option<string> format = new(["--format", "-f"], () => "D",
     """
-    Formato de sáida do GUID
-    Valores possíveis:
-    - D -> 00000000-0000-0000-0000-000000000000
-    - N -> 00000000000000000000000000000000
-    - B -> {00000000-0000-0000-0000-000000000000}
-    - P -> (00000000-0000-0000-0000-000000000000)
+    GUID Output Format
+    Possible values:
+    - D -> 00000000-0000-0000-0000-00000000000
+    - N -> 000000000000000000000000000000
+    - B -> {00000000-0000-0000-0000-00000000000}
+    - P -> (00000000-0000-0000-0000-0000000000)
     - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}
     """);
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de GUIDs a serem gerados");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of GUIDs to generate");
 
-        Command command = new("guid", "Gera GUIDs")
+        Command command = new("guid", "Generate GUIDs")
         {
             format,
             count
@@ -28,7 +28,7 @@ public class GenGuidCommand : ICommandFactory
         {
             if (string.IsNullOrWhiteSpace(format) || format is not "D" and not "N" and not "B" and not "P" and not "X")
             {
-                console.Error.WriteLine("--format: o valor passado não é válido.");
+                console.Error.WriteLine("--format: The value passed is not valid.");
                 return;
             }
             else

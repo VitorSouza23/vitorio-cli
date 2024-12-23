@@ -6,11 +6,11 @@ public class GenEmailCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<string> provider = new(new string[] { "--provider", "-p" }, "Provedor de e-mail personalizado");
-        Option<string> domain = new(new string[] { "--domain", "-d" }, () => "com", "Domínio do e-mail (Ex: com, com.br, etc.)");
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de e-mails a serem gerados");
+        Option<string> provider = new(["--provider", "-p"], "Custom Email Provider");
+        Option<string> domain = new(["--domain", "-d"], () => "com", "Email domain (e.g.: com, com.br, etc.)");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of emails to be generated");
 
-        Command command = new("email", "Gera endereço de e-mail (não necessariamente válido)")
+        Command command = new("email", "Generates email address (not necessarily valid)")
         {
             provider,
             domain,

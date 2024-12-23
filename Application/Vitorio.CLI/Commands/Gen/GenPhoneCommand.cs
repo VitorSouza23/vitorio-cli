@@ -7,22 +7,22 @@ public class GenPhoneCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<int> codeCountry = new(new string[] { "--code-country", "-cc" }, () => 0, "Código do país");
-        Option<int> ddd = new(new string[] { "--ddd", "-d" }, () => 0, "Código DDD da localidade de destino");
-        Option<int> numberOfDigits = new(new string[] { "--number-of-digits", "-nd" }, () => 9, "Quantidade de dígitos no número (Min = 3, Max = 9)");
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Quantidade de números telefônicos a serem gerados");
-        Option<bool> notFormated = new(new string[] { "--not-formated", "-nf" }, () => false, "Não formata o número telefônico");
+        Option<int> codeCountry = new(["--code-country", "-cc"], () => 0, "Country code");
+        Option<int> ddd = new(["--ddd", "-d"], () => 0, "DDD code of the destination location");
+        Option<int> numberOfDigits = new(["--number-of-digits", "-nd"], () => 9, "Number of digits in the number (Min = 3, Max = 9)");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of telephone numbers to be generated");
+        Option<bool> notFormatted = new(["--not-formatted", "-nf"], () => false, "Does not format the phone number");
 
-        Command command = new("phone", "Gera número de telefone")
+        Command command = new("phone", "Generate phone number")
         {
             codeCountry,
             ddd,
             numberOfDigits,
             count,
-            notFormated
+            notFormatted
         };
 
-        CustomPhoneBinder customPhoneBinder = new(codeCountry, ddd, numberOfDigits, notFormated);
+        CustomPhoneBinder customPhoneBinder = new(codeCountry, ddd, numberOfDigits, notFormatted);
 
         command.SetHandler((PhoneRules phoneRules, int count, IConsole console) =>
         {
@@ -50,26 +50,18 @@ public class GenPhoneCommand : ICommandFactory
     }
 }
 
-internal class CustomPhoneBinder : BinderBase<PhoneRules>
+internal class CustomPhoneBinder(Option<int> codeCountry, Option<int> ddd, Option<int> numberOfDigits, Option<bool> notFormatted) : BinderBase<PhoneRules>
 {
-    private readonly Option<int> _codeCountry;
-    private readonly Option<int> _ddd;
-    private readonly Option<int> _numberOfDigits;
-    private readonly Option<bool> _notFormated;
-
-    public CustomPhoneBinder(Option<int> codeCountry, Option<int> ddd, Option<int> numberOfDigits, Option<bool> notFormated)
-    {
-        _codeCountry = codeCountry;
-        _ddd = ddd;
-        _numberOfDigits = numberOfDigits;
-        _notFormated = notFormated;
-    }
+    private readonly Option<int> _codeCountry = codeCountry;
+    private readonly Option<int> _ddd = ddd;
+    private readonly Option<int> _numberOfDigits = numberOfDigits;
+    private readonly Option<bool> _notFormatted = notFormatted;
 
     protected override PhoneRules GetBoundValue(BindingContext bindingContext)
     {
         return new PhoneRules(bindingContext.ParseResult.GetValueForOption(_codeCountry),
                               bindingContext.ParseResult.GetValueForOption(_ddd),
                               bindingContext.ParseResult.GetValueForOption(_numberOfDigits),
-                              bindingContext.ParseResult.GetValueForOption(_notFormated));
+                              bindingContext.ParseResult.GetValueForOption(_notFormatted));
     }
 }
