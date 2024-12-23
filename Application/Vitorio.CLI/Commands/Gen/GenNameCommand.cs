@@ -7,10 +7,10 @@ public class GenNameCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<char> gender = new(new string[] { "--gender", "-g" }, () => 'A', "Gera nome feminino (F), mascilino (M) ou aleatório (A)");
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de nomes a serem gerados");
+        Option<char> gender = new(["--gender", "-g"], () => 'R', "Generates female (F), male (M) or all (A) name");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of names to be generated");
 
-        Command command = new("name", "Gera nome aleatório")
+        Command command = new("name", "Generate random name")
         {
             gender,
             count
@@ -34,7 +34,7 @@ public class GenNameCommand : ICommandFactory
 
             if (nameGender == NameGender.NotDefined)
             {
-                console.Error.WriteLine("--gender deve ser 'A' (Todos), 'F' (Feminino) ou 'M' (Masculino)");
+                console.Error.WriteLine("--gender must be 'A' (All), 'F' (Female) or 'M' (Male)");
                 return;
             }
 

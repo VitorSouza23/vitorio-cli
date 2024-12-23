@@ -5,6 +5,7 @@ using System.Linq;
 using Spectre.Console;
 using Vitorio.CLI.Commands.About;
 using Vitorio.CLI.Commands.Convert;
+using Vitorio.CLI.Commands.Date;
 using Vitorio.CLI.Commands.Format;
 using Vitorio.CLI.Commands.Gen;
 
@@ -13,9 +14,15 @@ rootCommand.AddCommand(new AboutCommand().Create());
 rootCommand.AddCommand(new GenCommand().Create());
 rootCommand.AddCommand(new FormatCommand().Create());
 rootCommand.AddCommand(new ConvertCommand().Create());
+rootCommand.AddCommand(new DateCommand().Create());
 
 var parser = new CommandLineBuilder(rootCommand)
     .UseDefaults()
+    .UseExceptionHandler((exception, context) =>
+    {
+        AnsiConsole.MarkupLine($"[red]Invalid operation[/]");
+        context.ExitCode = 1;
+    })
     .UseHelp(ctx =>
     {
         ctx.HelpBuilder.CustomizeLayout(_ =>

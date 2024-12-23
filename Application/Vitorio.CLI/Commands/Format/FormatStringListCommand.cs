@@ -7,12 +7,12 @@ public class FormatStringListCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> input = new("input", "Uma lista de strings a ser formatada");
-        Option<string> separator = new(new string[] { "--separator", "-sp" }, () => "\n", "O separador de cada item da lista");
-        Option<string> prefix = new(new string[] { "--prefix", "-p" }, () => string.Empty, "Prefixo a ser colocado em todos os itens da lista");
-        Option<string> suffix = new(new string[] { "--suffix", "-s" }, () => string.Empty, "Sufixo a ser colocado em todos os itens da lista");
+        Argument<string> input = new("input", "A list of strings to be formatted");
+        Option<string> separator = new(["--separator", "-sp"], () => "\n", "The separator for each list item");
+        Option<string> prefix = new(["--prefix", "-p"], () => string.Empty, "Prefix to be placed on all items in the list");
+        Option<string> suffix = new(["--suffix", "-s"], () => string.Empty, "Suffix to be placed on all items in the list");
 
-        Command command = new("list", "Formata os itens de uma lista de strings de acordo com um padrão")
+        Command command = new("list", "Formats the items in a list of strings according to a pattern")
         {
             input,
             separator,
@@ -35,7 +35,7 @@ public class FormatStringListCommand : ICommandFactory
             }
             catch
             {
-                console.Error.WriteLine("Erro ao tentar formatar lista de strings");
+                console.Error.WriteLine("Error trying to format list of strings");
             }
         }, input, separator, prefix, suffix);
 

@@ -6,16 +6,16 @@ public class GenCEPCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<bool> formated = new(new string[] { "--formated", "-f" }, () => false, "Gera CEP com pontuação");
-        Option<int> count = new(new string[] { "--count", "-c" }, () => Count.Default().Value, "Número de CEPs a serem gerados");
+        Option<bool> formatted = new(["--formatted", "-f"], () => false, "Generates CEP with punctuation");
+        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of CEPs to be generated");
 
-        Command command = new("cep", "Gera CEPs (válidos ou não)")
+        Command command = new("cep", "Generates CEPs (valid or not)")
         {
-            formated,
+            formatted,
             count
         };
 
-        command.SetHandler((bool formated, int count, IConsole console) =>
+        command.SetHandler((bool formatted, int count, IConsole console) =>
         {
             if (((Count)count).IsItNotOnRange())
             {
@@ -28,11 +28,11 @@ public class GenCEPCommand : ICommandFactory
             for (int index = 0; index < count; index++)
             {
                 CEP cep = new(random);
-                if (formated)
+                if (formatted)
                     cep = cep.Format();
                 console.Out.WriteLine(cep);
             }
-        }, formated, count);
+        }, formatted, count);
 
         return command;
     }

@@ -9,11 +9,11 @@ public class ConvertToBae64Command : ICommandFactory
     public Command Create()
     {
 
-        Argument<string> input = new("input", () => string.Empty, "Uma entreda de texto para ser codificada em base64");
-        Option<string> file = new(new string[] { "--file", "-f" }, "Caminho absoluto do arquivo (com o nome e extensão do arquivo)");
-        Option<string> outputFilePath = new(new string[] { "--output", "-o" }, () => string.Empty, "Especifica o caminho de um arquivo de destino para a saída do base64");
+        Argument<string> input = new("input", () => string.Empty, "A text input to be base64 encoded");
+        Option<string> file = new(["--file", "-f"], "Absolute path to the file (with file name and extension)");
+        Option<string> outputFilePath = new(["--output", "-o"], () => string.Empty, "Specifies the path of a destination file for base64 output");
 
-        Command command = new("toBase64", "Converte uma entrada para codificação Base64")
+        Command command = new("toBase64", "Converts an input to Base64 encoding")
         {
             input,
             file,
@@ -29,7 +29,7 @@ public class ConvertToBae64Command : ICommandFactory
                 {
                     if (File.Exists(file) is false)
                     {
-                        console.Error.WriteLine($"O arquivo {file} não existe ou o caminho é inválido");
+                        console.Error.WriteLine($"The file {file} does not exist or the path is invalid");
                         return;
                     }
 
@@ -52,18 +52,18 @@ public class ConvertToBae64Command : ICommandFactory
                         using var writer = new StreamWriter(outputFile);
                         await writer.WriteLineAsync(base64);
 
-                        console.Out.WriteLine($"Base64 escrito em: {outputFilePath}");
+                        console.Out.WriteLine($"Base64 written in: {outputFilePath}");
                     }
                     catch
                     {
-                        console.Error.WriteLine($"Erro ao escrever no arquivo de saída: {outputFilePath}");
+                        console.Error.WriteLine($"Error writing to output file: {outputFilePath}");
                         return;
                     }
                 }
             }
             catch
             {
-                console.Error.WriteLine("Erro ao tentar converter a imagem");
+                console.Error.WriteLine("Error trying to convert image");
                 return;
             }
 

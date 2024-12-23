@@ -4,7 +4,7 @@ public class GenCommand : ICommandFactory
 {
     public Command Create()
     {
-        Command command = new("gen", "Gera algum tipo de dado");
+        Command command = new("gen", "Generates some kind of data");
         command.AddCommand(new GenCPFCommand().Create());
         command.AddCommand(new GenCNPJCommand().Create());
         command.AddCommand(new GenGuidCommand().Create());

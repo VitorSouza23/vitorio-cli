@@ -7,11 +7,11 @@ public class FormatStringCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> input = new("input", "A string a ser formatada");
-        Option<bool> upper = new(new string[] { "--upper", "-u" }, () => false, "Formata a string em caixa alta");
-        Option<bool> lower = new(new string[] { "--lower", "-l" }, () => false, "Formata a string em letras minúsculas");
+        Argument<string> input = new("input", "The string to be formatted");
+        Option<bool> upper = new(["--upper", "-u"], () => false, "Formats the string in uppercase");
+        Option<bool> lower = new(["--lower", "-l"], () => false, "Formats the string in lowercase");
 
-        Command command = new("string", "Formata strings de acordo com um padrão")
+        Command command = new("string", "Formats strings according to a pattern")
         {
             input,
             upper,
@@ -27,7 +27,7 @@ public class FormatStringCommand : ICommandFactory
                 console.Out.WriteLine(input.ToLower());
 
             if (!upper && !lower)
-                console.Error.WriteLine("Nenhum tipo de formato selecionado.");
+                console.Error.WriteLine("No format type selected.");
 
         }, input, upper, lower);
 

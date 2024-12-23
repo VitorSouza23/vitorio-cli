@@ -5,7 +5,7 @@ namespace Vitorio.CLI.Model;
 public class Email
 {
     private const int RANDOM_STRING_LENGTH = 5;
-    private const string DEAFULT_DOMAIN = "com";
+    private const string DEFAULT_DOMAIN = "com";
 
     private readonly Random _random;
     private readonly string _provider;
@@ -18,7 +18,7 @@ public class Email
             RandomString(random, RANDOM_STRING_LENGTH) :
             provider;
         _domain = string.IsNullOrWhiteSpace(domain) ?
-            DEAFULT_DOMAIN :
+            DEFAULT_DOMAIN :
             domain;
     }
 

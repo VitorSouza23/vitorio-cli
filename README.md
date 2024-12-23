@@ -1,45 +1,49 @@
 # vitorio-cli
 
-# O que é?
+# About
 
-Devido algumas experiências diárias no trabalho, surgiu a necessidade de uma feramenta que facilitasse o processo de desnevovimento. 
-Basicamente alguma coisa capaz de gerar e manipular alguns dados, pricipalmente para preenchimento de perfis de usuários.
+Due to some daily experiences at work, the need arose for a tool that would facilitate the development process.
 
-Vitorio CLI (não me julguem, não sou bons com nomes) nasceu para supririr essa necessidade.
+Basically, something capable of generating and manipulating some data, mainly for filling out user profiles.
 
-# Instalação
+Vitorio CLI was created to meet this need.
 
-## Requisitos
-- [.NET 5, 6 ou 7](https://dotnet.microsoft.com/en-us/)
+# Installation
+
+## Requirements
+- [.NET 8 or 9](https://dotnet.microsoft.com/en-us/)
+
+> Before version 2.0.0, the CLI was developed and supported by .NET 5, 6, and 7
 
 ## dotnet CLI
-Use o CLI do dotnet para realizar a instalação da ferramente
-- Exemplo de instalação global:
+Use the dotnet CLI to install the tool
+- Global installation example:
 ```
 dotnet tool install -g Vitorio.CLI
 ```
 
-# Como usar
+# How to use
 
-## Help da CLI
+## CLI Help
 ```
 vitorio --help
 vitorio -h
 vitorio -?
 ```
 
-## Comando gen (Gerador)
-Comando voltado para geração de dados
+## Gen Command (Generator)
+Command focused on data generation
 ```
 vitorio gen -h
 ```
 
 ### gen cpf
-Gera um CPF válido
-Opções:
- - **-f, --formated**: Gera CPF com pontuação [default: False]
- - **-c, --count <count>**: Número de CPFs a serem gerados [default: 1]
-Exemplo:
+Generates a valid CPF
+Options:
+ - **-f, --formatted**: Generate CPF with punctuation [default: False]
+ - **-c, --count <count>**: Number of CPFs to be generated [default: 1]
+
+Example:
 ```
 ~$ vitorio gen cpf
 -> 36281768329
@@ -54,12 +58,12 @@ Exemplo:
 ```
 
 ### gen cnpj
-Gera um CNPJ válido
-Opções:
- - **-f, --formated**: Gera CNPJ com pontuação [default: False]
- - **-c, --count <count>**: Número de CNPJs a serem gerados [default: 1]
+Generates a valid CNPJ
+Options:
+ - **-f, --formatted**: Generate CNPJ with punctuation [default: False]
+ - **-c, --count <count>**: Number of CNPJs to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen cnpj
 -> 02903922000134
@@ -74,18 +78,18 @@ Exemplo:
 ```
 
 ### gen guid
-Gera um GUID
-Opções:
- - **-f, --formated**: Formato de sáida do GUID [default: D]
-   - Valores possíveis:
+Generates a GUID
+Options:
+ - **-f, --formatted**: GUID output format [default: D]
+   - Possible values:
      - D -> 00000000-0000-0000-0000-000000000000
      - N -> 00000000000000000000000000000000
      - B -> {00000000-0000-0000-0000-000000000000}
      - P -> (00000000-0000-0000-0000-000000000000)
      - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}} 
- - **-c, --count <count>**: Número de GUIDs a serem gerados [default: 1]
+ - **-c, --count <count>**: Number of GUIDs to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen guid
 -> b731d16b-5365-4f9e-9cde-ca592342a025
@@ -100,13 +104,13 @@ Exemplo:
 ```
 
 ### gen email
-Gera um e-mail não necessariamente válido
-Opções:
- - **-p, --provider <provider>**: Provedor de e-mail personalizado
- - **-d, --domain <domain>**: Domínio do e-mail (Ex: com, com.br, etc.) [default: com]
- - **-c, --count <count>**: Número de e-mails a serem gerados [default: 1]
+Generates an email not necessarily valid
+Options:
+ - **-p, --provider <provider>**: Custom email provider
+ - **-d, --domain <domain>**: Email domain (Ex: com, com.br, etc.) [default: com]
+ - **-c, --count <count>**: Number of emails to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen email
 -> xrzoc@uwwk9.com
@@ -124,12 +128,12 @@ Exemplo:
 ```
 
 ### gen password
-Gera senha com caracteres aleatórios
-Opções:
- - **-l, --length <length>**: Gera CNPJ com pontuação [default: False]Número de caracteres da senha (Min: 3, Max: 16) [default: 8]
- - **-c, --count <count>**: Número de senhas a serem geradas [default: 1]
+Generates a password with random characters
+Options:
+ - **-l, --length <length>**: Number of characters in the password (Min: 3, Max: 16) [default: 8]
+ - **-c, --count <count>**: Number of passwords to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen password
 -> k6oM@wIZ
@@ -144,15 +148,15 @@ Exemplo:
 ```
 
 ### gen phone
-Gera número de telefone
-Opções:
- - **cc, --code-country <code-country>**: Código do país [default: 0]
- - **d, --ddd <ddd>**: Código DDD da localidade de destino [default: 0]
- - **nd, --number-of-digits <number-of-digits>**: Quantidade de dígitos no número (Min = 3, Max = 9) [default: 9]
- - **nf, --not-formated**: Não formata o número telefônico [default: False]
- - **-c, --count <count>**: Número de senhas a serem geradas [default: 1]
+Generates a phone number
+Options:
+ - **cc, --code-country <code-country>**: Country code [default: 0]
+ - **d, --ddd <ddd>**: Area code of the destination location [default: 0]
+ - **nd, --number-of-digits <number-of-digits>**: Number of digits in the number (Min = 3, Max = 9) [default: 9]
+ - **nf, --not-formatted**: Do not format the phone number [default: False]
+ - **-c, --count <count>**: Number of phone numbers to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen phone
 -> 83153-4648
@@ -173,12 +177,12 @@ Exemplo:
 ```
 
 ### gen name
-Gera nome aleatório
-Opções:
- - **-g, --gender <gender>**: Gera nome feminino (F), mascilino (M) ou aleatório (A) [default: A]
- - **-c, --count <count>**: Número de nomes a serem gerados [default: 1]
+Generates a random name
+Options:
+ - **-g, --gender <gender>**: Generates a female (F), male (M), or random (A) name [default: A]
+ - **-c, --count <count>**: Number of names to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen name
 -> Luiz Felipe Souza
@@ -193,12 +197,12 @@ Exemplo:
 ```
 
 ### gen cep
-Gera CEPs (válidos ou não)
-Opções:
- - **-f, --formated**: Gera CEP com pontuação [default: False]
- - **-c, --count <count>**: Número de CEPs a serem gerados [default: 1]
+Generates ZIP codes (valid or not)
+Options:
+ - **-f, --formatted**: Generates ZIP code with punctuation [default: False]
+ - **-c, --count <count>**: Number of ZIP codes to be generated [default: 1]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen cep
 -> 05778328
@@ -213,30 +217,30 @@ Exemplo:
 ```
 
 ### gen birthdate
-Gera a data de aniversário respecitiva a uma idade
+Generates a birthdate respective to an age
 
-Argumentos:
-- age: Idade da qual será estraída a data de aniversário
+Arguments:
+- age: Age from which the birthdate will be extracted
  
-Exemplo:
+Example:
 ```
 ~$ vitorio gen birthdate 30
 -> 24/07/1991
 ```
 
-## Comando format (Formatador)
-Formata um dado através de uma máscara
+## Command format (Formatter)
+Formats data through a mask
 
 ### format cpf
-Formata um CPF com a pontuação padrão
+Formats a CPF with standard punctuation
 
-Argumentos:
-- cpf: CPF a ser formatado
+Arguments:
+- cpf: CPF to be formatted
 
-Opções:
- - **-r, --remove**: Remove a formatação do CPF [default: False]
+Options:
+ - **-r, --remove**: Removes the CPF formatting [default: False]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio format cpf 36281768329
 -> 362.817.683-29
@@ -246,15 +250,15 @@ Exemplo:
 ```
 
 ### format cnpj
-Formata um CNPJ com a pontuação padrão
+Formats a CNPJ with standard punctuation
 
-Argumentos:
-- cnpj: CNPJ a ser formatado
+Arguments:
+- cnpj: CNPJ to be formatted
 
-Opções:
- - **-r, --remove**: Remove a formatação do CNPJ [default: False]
+Options:
+ - **-r, --remove**: Removes the CNPJ formatting [default: False]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio format cnpj 02903922000134
 -> 02.903.922/0001-34
@@ -264,16 +268,16 @@ Exemplo:
 ```
 
 ### format date
-Formate uma data de acordo com uma máscara
+Formats a date according to a mask
 
-Argumentos:
-- date: Valor da data a ser formatada ["now" para usar a data atual do sistema, "utc" para usar a data UTC atual] [default: now]
+Arguments:
+- date: Date value to be formatted ["now" to use the current system date, "utc" to use the current UTC date] [default: now]
 
-Opções:
- - **-m, --mask <mask>**: Máscara para o formatação da data [default: dd/MM/yyyy hh:mm:ss]
- - **-j, --json**: Formata a data para json [default: False]
+Options:
+ - **-m, --mask <mask>**: Mask for date formatting [default: dd/MM/yyyy hh:mm:ss]
+ - **-j, --json**: Formats the date to JSON [default: False]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio format date "2000-01-01 01:00:00"
 -> 01/01/2000 01:00:00
@@ -282,23 +286,23 @@ Exemplo:
 -> 2000-01-01 01:00.00
 
 ~$ vitorio format date "01/01/2000 1:00:00" -m "dddd"
--> sábado
+-> Saturday
 
 ~$ vitorio format date "01/01/2000 1:00:00" -j
 -> "2000-01-01T01:00:00"
 ```
 
 ### format string 
-Formata strings de acordo com um padrão
+Formats strings according to a pattern
 
-Argumentos:
-- input: A string a ser formatada
+Arguments:
+- input: The string to be formatted
 
-Opções:
- - **-u, --upper**: Formata a string em caixa alta [default: False]
- - **-l, --lower**: Formata a string em letras minúsculas [default: False]
+Options:
+ - **-u, --upper**: Formats the string in uppercase [default: False]
+ - **-l, --lower**: Formats the string in lowercase [default: False]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio format string "This is a test" -u
 -> THIS IS A TEST
@@ -308,15 +312,15 @@ Exemplo:
 ```
 
 ### format string git-branch
-Recebe uma entrada de texto e formata seguindo o padrão de nomes de branch do Git
+Receives a text input and formats it following the Git branch naming pattern
 
-Argumentos:
-- input: Uma entrada que será formatada com o padrão de nome de branch do Git
+Arguments:
+- input: An input that will be formatted with the Git branch name pattern
 
-Opções:
- - **-p, --prefix**: Prefixo que será adicionado ao nome da bracnh separado po '/' [default: empty]
+Options:
+ - **-p, --prefix**: Prefix to be added to the branch name separated by '/' [default: empty]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio format string git-branch "This is a test"
 -> this-is-a-test
@@ -326,17 +330,17 @@ Exemplo:
 ```
 
 ### format string list
-Formata os itens de uma lista de strings de acordo com um padrão
+Formats the items of a list of strings according to a pattern
 
-Argumentos:
-- input: Uma lista de strings a ser formatada
+Arguments:
+- input: A list of strings to be formatted
 
-Opções:
- - **sp, --separator**: O separador de cada item da lista [default: "\n"]
- - **-p, --prefix**: Prefixo a ser colocado em todos os itens da lista [default: ""]
- - **s, --suffix**: Sufixo a ser colocado em todos os itens da lista [default: ""]
+Options:
+ - **sp, --separator**: The separator of each item in the list [default: "\n"]
+ - **-p, --prefix**: Prefix to be placed on all items in the list [default: ""]
+ - **s, --suffix**: Suffix to be placed on all items in the list [default: ""]
  
-Exemplo:
+Example:
 ```
 ~$ vitorio format string list -sp "," -s " " "AAA,BBB,CCC"
 -> AAA 
@@ -351,20 +355,20 @@ Exemplo:
 -> "CCC",
 ```
 
-## Comando convert (Conversor)
-Converte um dado de um tipo para outro
+## Command convert (Converter)
+Converts data from one type to another
 
 ### convert toBase64
-Converte uma entrada para codificação Base64
+Converts an input to Base64 encoding
 
-Argumentos:
-- input: Uma entreda de texto para ser codificada em base64
+Arguments:
+- input: A text input to be encoded in base64
 
-Opções:
- - **-o, --output**: Especifica o caminho de um arquivo de destino para a saída do base64 [default: empty]
- - **-f, --file**: Caminho absoluto do arquivo (com o nome e extensão do arquivo)
+Options:
+ - **-o, --output**: Specifies the path of a destination file for the base64 output [default: empty]
+ - **-f, --file**: Absolute path of the file (with the file name and extension)
  
-Exemplo:
+Example:
 ```
 ~$ vitorio convert toBase64 "Test"
 -> VGVzdA==
@@ -373,20 +377,20 @@ Exemplo:
 -> /9j/4AAQSkZJRgABAQAAAQABAAD/...
 
 ~$ vitorio convert toBase64 -f /home/image.png -o /home/test.txt
--> Base64 escrito em: /home/test.txt
+-> Base64 written to: /home/test.txt
 ```
 
 ### convert fromBase64
-Converte uma entrada para decodificação Base64
+Converts an input from Base64 decoding
 
-Argumentos:
-- input: Uma entreda de texto base64 para ser decodificada
+Arguments:
+- input: A base64 text input to be decoded
 
-Opções:
- - **-o, --output**: Especifica o caminho de um arquivo de destino para a saída do arquivo decodificado [default: empty]
- - **-f, --file**: Caminho absoluto do arquivo base64 (com o nome e extensão do arquivo)
+Options:
+ - **-o, --output**: Specifies the path of a destination file for the decoded file output [default: empty]
+ - **-f, --file**: Absolute path of the base64 file (with the file name and extension)
  
-Exemplo:
+Example:
 ```
 ~$ vitorio convert fromBase64 "VGVzdA=="
 -> Test
@@ -395,10 +399,54 @@ Exemplo:
 -> Test
 
 ~$ vitorio convert fromBase64 -f /home/testeBase64.txt -o /home/test.txt
--> Conteúdo escrito em: /home/test.txt
+-> Content written to: /home/test.txt
 ```
 
-# Sobre a CLI
-Todos os dados gerados e manipulados por ela são de total responsabilidade de quem as usa.
+## Command date (Date)
+Performs operations with dates
 
-Toda ajuda e sugestões são bem-vidas.
+### date add
+Adds a time interval to a date
+
+Arguments:
+- start: Start date ["now" to use the current system date, "utc" to use the current UTC date]
+- time: Time interval to be added to the start date
+
+Example:
+```
+~$ vitorio date add "2021-01-01 00:00:00" "01:00:00"
+-> 01/01/2021 01:00:00
+
+~$ vitorio date add now "10:00:00"
+-> *current date + 10 hours*
+
+~$ vitorio date add utc "10:00:00"
+-> *current UTC date + 10 hours*
+```
+
+### date difference
+Calculates the difference between two dates
+
+Arguments:
+- start: Start date ["now" to use the current system date, "utc" to use the current UTC date]
+- end: End date ["now" to use the current system date, "utc" to use the current UTC date]
+
+Example:
+```
+~$ vitorio date difference "2021-01-01 00:00:00" "2021-01-01 01:00:00"
+-> 01:00:00
+
+~$ vitorio date difference now "2021-01-01 01:00:00"
+-> *current date - 01/01/2021 01:00:00*
+
+~$ vitorio date difference utc "2021-01-01 01:00:00"
+-> *current UTC date - 01/01/2021 01:00:00*
+
+~$ vitorio date difference now utc
+-> *current date - current UTC date*
+```
+
+# About the CLI
+All data generated and manipulated by it are the sole responsibility of the user.
+
+All help and suggestions are welcome.

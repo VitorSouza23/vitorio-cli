@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Vitorio.CLI.Model;
 
-public class Cnpj
+public partial class Cnpj
 {
     private readonly Random _random;
     public string Value { get; private set; }
@@ -16,7 +16,7 @@ public class Cnpj
     public static bool IsCnpj(string cnpj)
     {
         var cnpjUnformated = RemoveFormat(cnpj);
-        return Regex.IsMatch(cnpjUnformated, "^[0-9]{14}$");
+        return CNPJRegex().IsMatch(cnpjUnformated);
     }
 
     public static string RemoveFormat(string cnpj)
@@ -24,7 +24,7 @@ public class Cnpj
         return cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
     }
 
-    public static string Foramt(string cnpj)
+    public static string Format(string cnpj)
     {
         const string mask = @"00\.000\.000\/0000\-00";
         return Convert.ToUInt64(cnpj).ToString(mask);
@@ -40,8 +40,8 @@ public class Cnpj
     public Cnpj New()
     {
         Value = string.Empty;
-        int[] multiplier1 = new int[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-        int[] multiplier2 = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+        int[] multiplier1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+        int[] multiplier2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
 
         string seed = _random.Next(0, 99999999).ToString("D8");
 
@@ -65,7 +65,10 @@ public class Cnpj
 
     public Cnpj Format()
     {
-        Value = Foramt(Value);
+        Value = Format(Value);
         return this;
     }
+
+    [GeneratedRegex("^[0-9]{14}$")]
+    public static partial Regex CNPJRegex();
 }

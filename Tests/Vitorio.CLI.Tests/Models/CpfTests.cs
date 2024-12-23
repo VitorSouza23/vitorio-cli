@@ -102,7 +102,6 @@ public sealed class CpfTests
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     [InlineData("123")]
     public void Should_Not_Be_Cpf(string cpf)

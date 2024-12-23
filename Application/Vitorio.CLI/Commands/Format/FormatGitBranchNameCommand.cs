@@ -6,10 +6,10 @@ public sealed class FormatGitBranchNameCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> input = new("input", "Uma entreda que será formatada com o padrão de nome de branch do Git");
-        Option<string> prefix = new(new string[] { "--prefix", "-p" }, () => string.Empty, "Prefixo que será adicionado ao nome da bracnh separado po '/'");
+        Argument<string> input = new("input", "An entry that will be formatted with the Git branch name pattern");
+        Option<string> prefix = new(["--prefix", "-p"], () => string.Empty, "Prefix that will be added to the branch name separated by '/'");
 
-        Command command = new("git-branch", "Recebe uma entrada de texto e formata seguindo o padrão de nomes de branch do Git")
+        Command command = new("git-branch", "Takes a text input and formats it following the Git branch naming standard")
         {
             input,
             prefix
@@ -19,19 +19,19 @@ public sealed class FormatGitBranchNameCommand : ICommandFactory
         {
             if (string.IsNullOrWhiteSpace(input))
             {
-                console.Error.WriteLine("Input não pode ser vazio");
+                console.Error.WriteLine("Input cannot be empty");
                 return;
             }
 
             if (input.Length > 100)
             {
-                console.Error.WriteLine("Input não pode ter mais que 100 caracteres");
+                console.Error.WriteLine("Input cannot be longer than 100 characters");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(prefix) is false && prefix.Length > 20)
             {
-                console.Error.WriteLine("Prefixo não pode ter mais que 20 caracteres");
+                console.Error.WriteLine("Prefix cannot be longer than 20 characters");
                 return;
             }
 

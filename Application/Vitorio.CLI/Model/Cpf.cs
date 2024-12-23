@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Vitorio.CLI.Model;
 
-public class Cpf
+public partial class Cpf
 {
     private readonly Random _random;
 
@@ -36,7 +36,7 @@ public class Cpf
             return false;
 
         var clenaedCpf = RemoveFormat(cpf);
-        return Regex.IsMatch(clenaedCpf, "^[0-9]{11}$");
+        return CPFRegex().IsMatch(clenaedCpf);
     }
 
     public override string ToString()
@@ -46,8 +46,8 @@ public class Cpf
 
     public Cpf New()
     {
-        int[] multiplier1 = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-        int[] multiplier2 = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+        int[] multiplier1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+        int[] multiplier2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
 
         string seed = _random.Next(0, 999999999).ToString("D9");
 
@@ -75,4 +75,7 @@ public class Cpf
         Value = Format(Value);
         return this;
     }
+
+    [GeneratedRegex("^[0-9]{11}$")]
+    public static partial Regex CPFRegex();
 }

@@ -6,11 +6,11 @@ namespace Vitorio.CLI.Commands.Format
     {
         public Command Create()
         {
-            Argument<string> date = new("date", () => "now", "Valor da data a ser formatada [\"now\" para usar a data atual do sistema, \"utc\" para usar a data UTC atual]");
-            Option<string> mask = new(new string[] { "--mask", "-m" }, () => "dd/MM/yyyy hh:mm:ss", "Máscara para o formatação da data");
-            Option<bool> json = new(new string[] { "--json", "-j" }, () => false, "Formata a data para json");
+            Argument<string> date = new("date", () => "now", "Date value to format [\"now\" to use the current system date, \"utc\" to use the current UTC date]");
+            Option<string> mask = new(["--mask", "-m"], () => "dd/MM/yyyy hh:mm:ss", "Mask for date formatting");
+            Option<bool> json = new(["--json", "-j"], () => false, "Format the date to JSON");
 
-            Command command = new("date", "Formate uma data de acordo com uma máscara")
+            Command command = new("date", "Format a date according to a mask")
             {
                 date,
                 mask,
@@ -21,7 +21,7 @@ namespace Vitorio.CLI.Commands.Format
             {
                 if (string.IsNullOrWhiteSpace(date))
                 {
-                    console.Error.WriteLine("O valor da data não pode ser vazio");
+                    console.Error.WriteLine("Date value cannot be empty");
                     return;
                 }
 
@@ -43,7 +43,7 @@ namespace Vitorio.CLI.Commands.Format
                     {
                         if (string.IsNullOrWhiteSpace(mask))
                         {
-                            console.Error.WriteLine("--mask não pode ser vazio");
+                            console.Error.WriteLine("--mask cannot be empty");
                             return;
                         }
 
@@ -52,7 +52,7 @@ namespace Vitorio.CLI.Commands.Format
                 }
                 else
                 {
-                    console.Error.WriteLine($"O valor {date} não foi reconhecido como uma data válida");
+                    console.Error.WriteLine($"The value {date} was not recognized as a valid date");
                     return;
                 }
             }, date, mask, json);
