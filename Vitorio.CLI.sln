@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitorio.CLI", "Application\Vitorio.CLI\Vitorio.CLI.csproj", "{F9B1A98C-A6FA-488D-8BCA-4469585E2976}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{09190C43-0E23-415D-A447-073F2850A4E2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vitorio.CLI.Tests", "Tests\Vitorio.CLI.Tests\Vitorio.CLI.Tests.csproj", "{7DEEB928-06BE-4D11-A23A-F478051FBCE5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,9 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F9B1A98C-A6FA-488D-8BCA-4469585E2976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -36,21 +29,11 @@ Global
 		{F9B1A98C-A6FA-488D-8BCA-4469585E2976}.Release|x64.Build.0 = Release|Any CPU
 		{F9B1A98C-A6FA-488D-8BCA-4469585E2976}.Release|x86.ActiveCfg = Release|Any CPU
 		{F9B1A98C-A6FA-488D-8BCA-4469585E2976}.Release|x86.Build.0 = Release|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Debug|x64.Build.0 = Debug|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Debug|x86.Build.0 = Debug|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Release|x64.ActiveCfg = Release|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Release|x64.Build.0 = Release|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Release|x86.ActiveCfg = Release|Any CPU
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F9B1A98C-A6FA-488D-8BCA-4469585E2976} = {53E796FC-6980-4B56-8784-99D4E0020770}
-		{7DEEB928-06BE-4D11-A23A-F478051FBCE5} = {09190C43-0E23-415D-A447-073F2850A4E2}
 	EndGlobalSection
 EndGlobal

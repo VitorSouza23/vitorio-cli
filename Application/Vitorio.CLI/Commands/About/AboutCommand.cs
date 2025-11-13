@@ -6,9 +6,9 @@ public class AboutCommand : ICommandFactory
     {
         Command command = new("about", "About this CLI");
 
-        command.SetHandler((IConsole console) =>
+        command.SetAction(_ =>
         {
-            console.Out.WriteLine("""
+            Console.WriteLine("""
 This CLI was based on my needs for generating and manipulating data during work.
 
 All data generated and manipulated by it are the sole responsibility of those who use it.
