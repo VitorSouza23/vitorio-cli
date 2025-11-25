@@ -10,7 +10,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
 
     <PackageId>Vitorio.CLI</PackageId>
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <Authors>VitorSouza23</Authors>
     <Description>
       CLI based on useful tool for developers. All data generated and manipulated by it are the total responsibility of those who use it;
@@ -20,6 +20,7 @@
     <RepositoryUrl>https://github.com/VitorSouza23/vitorio-cli</RepositoryUrl>
     <RespositoryType>git</RespositoryType>
     <PackageTags>CLI</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
     <Content Include="Resources/**" CopyToPublishDirectory="PreserveNewest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
