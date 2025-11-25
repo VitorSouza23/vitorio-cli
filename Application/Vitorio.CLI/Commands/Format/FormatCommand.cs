@@ -9,7 +9,9 @@ public class FormatCommand : ICommandFactory
             new FormatCPFCommand().Create(),
             new FormatCNPJCommand().Create(),
             new FormatDateCommand().Create(),
-            new FormatStringCommand().Create()
+            new FormatStringCommand().Create(),
+            new FormatStringListCommand().Create(),
+            new FormatGuidCommand().Create()
         };
         return command;
     }
