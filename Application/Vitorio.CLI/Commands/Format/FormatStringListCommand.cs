@@ -43,7 +43,7 @@ public class FormatStringListCommand : ICommandFactory
                 StringBuilder sb = new();
                 foreach (string value in strings)
                 {
-                    sb.AppendLine($"{prefix}{value}{suffix}");
+                    sb.AppendLine($"{prefixValue}{value}{suffixValue}");
                 }
                 string result = sb.ToString();
                 Console.WriteLine(result);
