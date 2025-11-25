@@ -6,8 +6,15 @@ public sealed class FormatGitBranchNameCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> input = new("input", "An entry that will be formatted with the Git branch name pattern");
-        Option<string> prefix = new(["--prefix", "-p"], () => string.Empty, "Prefix that will be added to the branch name separated by '/'");
+        Argument<string> input = new("input")
+        {
+            Description = "An input string to be formatted as a Git branch name"
+        };
+        Option<string> prefix = new("--prefix", "-p")
+        {
+            Description = "Prefix that will be added to the branch name separated by '/'",
+            DefaultValueFactory = _ => string.Empty
+        };
 
         Command command = new("git-branch", "Takes a text input and formats it following the Git branch naming standard")
         {
@@ -15,29 +22,32 @@ public sealed class FormatGitBranchNameCommand : ICommandFactory
             prefix
         };
 
-        command.SetHandler((string input, string prefix, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (string.IsNullOrWhiteSpace(input))
+            var inputValue = parseResult.GetValue(input);
+            var prefixValue = parseResult.GetValue(prefix);
+
+            if (string.IsNullOrWhiteSpace(inputValue))
             {
-                console.Error.WriteLine("Input cannot be empty");
+                Console.Error.WriteLine("Input cannot be empty");
                 return;
             }
 
-            if (input.Length > 100)
+            if (inputValue.Length > 100)
             {
-                console.Error.WriteLine("Input cannot be longer than 100 characters");
+                Console.Error.WriteLine("Input cannot be longer than 100 characters");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(prefix) is false && prefix.Length > 20)
+            if (string.IsNullOrWhiteSpace(prefixValue) is false && prefixValue.Length > 20)
             {
-                console.Error.WriteLine("Prefix cannot be longer than 20 characters");
+                Console.Error.WriteLine("Prefix cannot be longer than 20 characters");
                 return;
             }
 
-            console.Out.WriteLine(GitBranchName.Format(input, prefix));
+            Console.WriteLine(GitBranchName.Format(inputValue, prefixValue));
 
-        }, input, prefix);
+        });
 
         return command;
     }

@@ -6,9 +6,23 @@ namespace Vitorio.CLI.Commands.Format
     {
         public Command Create()
         {
-            Argument<string> date = new("date", () => "now", "Date value to format [\"now\" to use the current system date, \"utc\" to use the current UTC date]");
-            Option<string> mask = new(["--mask", "-m"], () => "dd/MM/yyyy hh:mm:ss", "Mask for date formatting");
-            Option<bool> json = new(["--json", "-j"], () => false, "Format the date to JSON");
+            Argument<string> date = new("date")
+            {
+                Description = "Date value to format [\"now\" to use the current system date, \"utc\" to use the current UTC date]",
+                DefaultValueFactory = _ => "now"
+            };
+
+            Option<string> mask = new("--mask", "-m")
+            {
+                Description = "Mask for date formatting",
+                DefaultValueFactory = _ => "dd/MM/yyyy hh:mm:ss"
+            };
+            
+            Option<bool> json = new("--json", "-j")
+            {
+                Description = "Format the date to JSON",
+                DefaultValueFactory = _ => false
+            };
 
             Command command = new("date", "Format a date according to a mask")
             {
@@ -17,45 +31,49 @@ namespace Vitorio.CLI.Commands.Format
                 json
             };
 
-            command.SetHandler((string date, string mask, bool json, IConsole console) =>
+            command.SetAction(parseResult =>
             {
-                if (string.IsNullOrWhiteSpace(date))
+                var dateValue = parseResult.GetValue(date);
+                var maskValue = parseResult.GetValue(mask);
+                var jsonValue = parseResult.GetValue(json);
+
+                if (string.IsNullOrWhiteSpace(dateValue))
                 {
-                    console.Error.WriteLine("Date value cannot be empty");
+                    Console.Error.WriteLine("Date value cannot be empty");
                     return;
                 }
 
-                string dataInput = date switch
+                string dataInput = dateValue switch
                 {
                     "now" => DateTime.Now.ToString(),
                     "utc" => DateTime.UtcNow.ToString(),
-                    _ => date
+                    _ => dateValue
                 };
 
                 if (DateTime.TryParse(dataInput, out DateTime theDate))
                 {
-                    if (json)
+                    if (jsonValue)
                     {
                         string jsonDate = JsonSerializer.Serialize(theDate);
-                        console.Out.WriteLine(jsonDate);
+                        Console.WriteLine(jsonDate);
                     }
                     else
                     {
-                        if (string.IsNullOrWhiteSpace(mask))
+                        if (string.IsNullOrWhiteSpace(maskValue))
                         {
-                            console.Error.WriteLine("--mask cannot be empty");
+                            Console.Error.WriteLine("--mask cannot be empty");
                             return;
                         }
 
-                        console.Out.WriteLine(theDate.ToString(mask));
+                        Console.WriteLine(theDate.ToString(maskValue));
                     }
                 }
                 else
                 {
-                    console.Error.WriteLine($"The value {date} was not recognized as a valid date");
+                    Console.Error.WriteLine($"The value {date} was not recognized as a valid date");
                     return;
                 }
-            }, date, mask, json);
+            });
 
             return command;
         }

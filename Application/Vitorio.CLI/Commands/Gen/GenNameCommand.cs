@@ -1,14 +1,21 @@
-using System.CommandLine.Binding;
 using Vitorio.CLI.Model;
 
-namespace Vitorio.CLI.Commands;
+namespace Vitorio.CLI.Commands.Gen;
 
 public class GenNameCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<char> gender = new(["--gender", "-g"], () => 'R', "Generates female (F), male (M) or all (A) name");
-        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of names to be generated");
+        Option<string> gender = new("--gender", "-g")
+        {
+            Description = "Generate famale (F), male (M) or all (A) names",
+            DefaultValueFactory = _ => "A"
+        };
+        Option<int> count = new("--count", "-c")
+        {
+            Description = "Number of names to be generated",
+            DefaultValueFactory = _ => Count.Default().Value
+        };
 
         Command command = new("name", "Generate random name")
         {
@@ -16,34 +23,37 @@ public class GenNameCommand : ICommandFactory
             count
         };
 
-        command.SetHandler((char gender, int count, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (((Count)count).IsItNotOnRange())
+            var genderValue = parseResult.GetValue(gender);
+            var countValue = parseResult.GetValue(count);
+
+            if (((Count)countValue).IsItNotOnRange())
             {
-                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                Console.Error.WriteLine(((Count)countValue).GetNotInRangeMessage());
                 return;
             }
 
-            NameGender nameGender = gender switch
+            NameGender nameGender = genderValue switch
             {
-                'F' or 'f' => NameGender.Feminine,
-                'M' or 'm' => NameGender.Masculine,
-                'A' or 'a' => NameGender.All,
+                "F" or "f" => NameGender.Feminine,
+                "M" or "m" => NameGender.Masculine,
+                "A" or "a" => NameGender.All,
                 _ => NameGender.NotDefined
             };
 
             if (nameGender == NameGender.NotDefined)
             {
-                console.Error.WriteLine("--gender must be 'A' (All), 'F' (Female) or 'M' (Male)");
+                Console.Error.WriteLine("--gender must be 'A' (All), 'F' (Female) or 'M' (Male)");
                 return;
             }
 
             Name name = new(new Random());
-            for (int index = 0; index < count; index++)
+            for (int index = 0; index < countValue; index++)
             {
-                console.Out.WriteLine(name.New(nameGender));
+                Console.WriteLine(name.New(nameGender));
             }
-        }, gender, count);
+        });
 
         return command;
     }

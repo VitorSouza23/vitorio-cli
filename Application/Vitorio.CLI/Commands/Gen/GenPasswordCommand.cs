@@ -6,8 +6,16 @@ public class GenPasswordCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<int> length = new(["--length", "-l"], () => 8, "Number of password characters (Min: 3, Max: 16)");
-        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of passwords to be generated");
+        Option<int> length = new("--length", "-l")
+        {
+            Description = "Length of the password (Min: 3, Max: 16)",
+            DefaultValueFactory = _ => 8
+        };
+        Option<int> count = new("--count", "-c")
+        {
+            Description = "Number of passwords to be generated",
+            DefaultValueFactory = _ => Count.Default().Value
+        };
 
         Command command = new("password", "Generate password with random characters")
         {
@@ -15,27 +23,30 @@ public class GenPasswordCommand : ICommandFactory
             count
         };
 
-        command.SetHandler((int length, int count, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (((Count)count).IsItNotOnRange())
+            var lengthValue = parseResult.GetValue(length);
+            var countValue = parseResult.GetValue(count);
+
+            if (((Count)countValue).IsItNotOnRange())
             {
-                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                Console.Error.WriteLine(((Count)countValue).GetNotInRangeMessage());
                 return;
             }
 
-            Password password = new(new Random(), length);
+            Password password = new(new Random(), lengthValue);
 
             if (!password.IsLengthInRange())
             {
-                console.Error.WriteLine(Password.GetLengthOutOfRangeMessage());
+                Console.Error.WriteLine(Password.GetLengthOutOfRangeMessage());
                 return;
             }
 
-            for (int index = 0; index < count; index++)
+            for (int index = 0; index < countValue; index++)
             {
-                console.Out.WriteLine(password.New());
+                Console.WriteLine(password.New());
             }
-        }, length, count);
+        });
 
         return command;
     }

@@ -1,13 +1,21 @@
 using Vitorio.CLI.Model;
 
-namespace Vitorio.CLI.Commands;
+namespace Vitorio.CLI.Commands.Gen;
 
 public class GenCEPCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<bool> formatted = new(["--formatted", "-f"], () => false, "Generates CEP with punctuation");
-        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of CEPs to be generated");
+        Option<bool> formatted = new("--formatted", "-f")
+        {
+            Description = "Generates CEP with punctuation",
+            DefaultValueFactory = _ => false
+        };
+        Option<int> count = new("--count", "-c")
+        {
+            Description = "Number of CEPs to be generated",
+            DefaultValueFactory = _ => Count.Default().Value
+        };
 
         Command command = new("cep", "Generates CEPs (valid or not)")
         {
@@ -15,24 +23,27 @@ public class GenCEPCommand : ICommandFactory
             count
         };
 
-        command.SetHandler((bool formatted, int count, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (((Count)count).IsItNotOnRange())
+            var formattedValue = parseResult.GetValue(formatted);
+            var countValue = parseResult.GetValue(count);
+
+            if (((Count)countValue).IsItNotOnRange())
             {
-                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                Console.Error.WriteLine(((Count)countValue).GetNotInRangeMessage());
                 return;
             }
 
             Random random = new();
 
-            for (int index = 0; index < count; index++)
+            for (int index = 0; index < countValue; index++)
             {
                 CEP cep = new(random);
-                if (formatted)
+                if (formattedValue)
                     cep = cep.Format();
-                console.Out.WriteLine(cep);
+                Console.WriteLine(cep);
             }
-        }, formatted, count);
+        });
 
         return command;
     }

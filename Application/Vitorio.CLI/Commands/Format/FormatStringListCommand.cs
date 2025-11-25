@@ -1,4 +1,3 @@
-using System.CommandLine.IO;
 using System.Text;
 
 namespace Vitorio.CLI.Commands.Format;
@@ -7,10 +6,21 @@ public class FormatStringListCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> input = new("input", "A list of strings to be formatted");
-        Option<string> separator = new(["--separator", "-sp"], () => "\n", "The separator for each list item");
-        Option<string> prefix = new(["--prefix", "-p"], () => string.Empty, "Prefix to be placed on all items in the list");
-        Option<string> suffix = new(["--suffix", "-s"], () => string.Empty, "Suffix to be placed on all items in the list");
+        Argument<string> input = new("input"){
+            Description = "A list of strings to be formatted"
+        };
+        Option<string> separator = new("--separator", "-sp"){
+            Description = "The separator for each list item",
+            DefaultValueFactory = _ => "\n"
+        };
+        Option<string> prefix = new("--prefix", "-p"){
+            Description = "Prefix to be placed on all items in the list",
+            DefaultValueFactory = _ => string.Empty
+        };
+        Option<string> suffix = new("--suffix", "-s"){
+            Description = "Suffix to be placed on all items in the list",
+            DefaultValueFactory = _ => string.Empty
+        };
 
         Command command = new("list", "Formats the items in a list of strings according to a pattern")
         {
@@ -20,24 +30,29 @@ public class FormatStringListCommand : ICommandFactory
             suffix
         };
 
-        command.SetHandler((string input, string separator, string prefix, string suffix, IConsole console) =>
+        command.SetAction(parseResult =>
         {
+            var inputValue = parseResult.GetValue(input);
+            var separatorValue = parseResult.GetValue(separator);
+            var prefixValue = parseResult.GetValue(prefix);
+            var suffixValue = parseResult.GetValue(suffix);
+
             try
             {
-                string[] strings = input.Split(separator);
+                string[] strings = inputValue.Split(separatorValue);
                 StringBuilder sb = new();
                 foreach (string value in strings)
                 {
                     sb.AppendLine($"{prefix}{value}{suffix}");
                 }
                 string result = sb.ToString();
-                console.Out.WriteLine(result);
+                Console.WriteLine(result);
             }
             catch
             {
-                console.Error.WriteLine("Error trying to format list of strings");
+                Console.Error.WriteLine("Error trying to format list of strings");
             }
-        }, input, separator, prefix, suffix);
+        });
 
         return command;
     }

@@ -6,8 +6,16 @@ public class GenCPFCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<bool> formatted = new(["--formatted", "-f"], () => false, "Generate CPF with punctuation");
-        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of CPFs to be generated");
+        Option<bool> formatted = new("--formatted", "-f")
+        {
+            Description = "Generate CPF with punctuation",
+            DefaultValueFactory = _ => false
+        };
+        Option<int> count = new("--count", "-c")
+        {
+            Description = "Number of CPFs to be generated",
+            DefaultValueFactory = _ => Count.Default().Value
+        };
 
         Command command = new("cpf", "Generates valid CPF")
         {
@@ -15,23 +23,26 @@ public class GenCPFCommand : ICommandFactory
             count
         };
 
-        command.SetHandler((bool formatted, int count, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (((Count)count).IsItNotOnRange())
+            var formattedValue = parseResult.GetValue(formatted);
+            var countValue = parseResult.GetValue(count);
+
+            if (((Count)countValue).IsItNotOnRange())
             {
-                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                Console.Error.WriteLine(((Count)countValue).GetNotInRangeMessage());
                 return;
             }
 
             Random random = new();
-            for (int index = 0; index < count; index++)
+            for (int index = 0; index < countValue; index++)
             {
                 Cpf cpf = new(random);
-                if (formatted)
+                if (formattedValue)
                     cpf = cpf.Format();
-                console.Out.WriteLine(cpf);
+                Console.WriteLine(cpf);
             }
-        }, formatted, count);
+        });
 
         return command;
     }

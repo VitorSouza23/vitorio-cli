@@ -4,8 +4,12 @@ public class DateDifferenceCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> start = new("start", "Start date [\"now\" to use the current system date, \"utc\" to use the current UTC date]");
-        Argument<string> end = new("end", "End date [\"now\" to use the current system date, \"utc\" to use the current UTC date]");
+        Argument<string> start = new("start"){
+            Description = "The start date [\"now\" to use the current system date, \"utc\" to use the current UTC date]"
+        };
+        Argument<string> end = new("end"){
+            Description = "The end date [\"now\" to use the current system date, \"utc\" to use the current UTC date]"
+        };
 
         Command command = new("difference", "Calculate the difference between two dates")
         {
@@ -13,45 +17,47 @@ public class DateDifferenceCommand : ICommandFactory
             end
         };
 
-        command.SetHandler((string start, string end, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (string.IsNullOrWhiteSpace(start))
+            var startValue = parseResult.GetValue(start);
+            var endValue = parseResult.GetValue(end);
+            if (string.IsNullOrWhiteSpace(startValue))
             {
-                console.Error.WriteLine("Start date cannot be empty");
+                Console.Error.WriteLine("Start date cannot be empty");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(end))
+            if (string.IsNullOrWhiteSpace(endValue))
             {
-                console.Error.WriteLine("End date cannot be empty");
+                Console.Error.WriteLine("End date cannot be empty");
                 return;
             }
 
-            string startInput = start switch
+            string startInput = startValue switch
             {
                 "now" => DateTime.Now.ToString(),
                 "utc" => DateTime.UtcNow.ToString(),
-                _ => start
+                _ => startValue
             };
 
-            string endInput = end switch
+            string endInput = endValue switch
             {
                 "now" => DateTime.Now.ToString(),
                 "utc" => DateTime.UtcNow.ToString(),
-                _ => end
+                _ => endValue
             };
 
             if (DateTime.TryParse(startInput, out DateTime startDate) && DateTime.TryParse(endInput, out DateTime endDate))
             {
                 TimeSpan difference = endDate - startDate;
-                console.Out.WriteLine(difference.ToString());
+                Console.WriteLine(difference.ToString());
             }
             else
             {
-                console.Error.WriteLine("Invalid date format");
+                Console.Error.WriteLine("Invalid date format");
                 return;
             }
-        }, start, end);
+        });
 
         return command;
     }

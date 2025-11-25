@@ -4,16 +4,19 @@ public class GenCommand : ICommandFactory
 {
     public Command Create()
     {
-        Command command = new("gen", "Generates some kind of data");
-        command.AddCommand(new GenCPFCommand().Create());
-        command.AddCommand(new GenCNPJCommand().Create());
-        command.AddCommand(new GenGuidCommand().Create());
-        command.AddCommand(new GenEmailCommand().Create());
-        command.AddCommand(new GenPhoneCommand().Create());
-        command.AddCommand(new GenPasswordCommand().Create());
-        command.AddCommand(new GenNameCommand().Create());
-        command.AddCommand(new GenCEPCommand().Create());
-        command.AddCommand(new GenBirthDateCommand().Create());
+        Command command = new("gen", "Generates some kind of data")
+        {
+            new GenCPFCommand().Create(),
+            new GenCNPJCommand().Create(),
+            new GenGuidCommand().Create(),
+            new GenEmailCommand().Create(),
+            new GenPhoneCommand().Create(),
+            new GenPasswordCommand().Create(),
+            new GenNameCommand().Create(),
+            new GenCEPCommand().Create(),
+            new GenBirthDateCommand().Create()
+        };
+        
         return command;
     }
 }

@@ -1,30 +1,34 @@
 using Vitorio.CLI.Model;
 
-namespace Vitorio.CLI.Commands;
+namespace Vitorio.CLI.Commands.Gen;
 
 public class GenBirthDateCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<uint> age = new("age", "Age from which the birthday date will be get");
-
-        Command command = new("birthdate", "Generates the birth date corresponding to an age")
+        Argument<uint> age = new("age")
         {
-            age
+            Description = "Age from which the birthday date will be get"
         };
 
-        command.SetHandler((uint age, IConsole console) =>
+        Command command = new("birthdate", "Generate birth date corresponding to an age")
         {
+           age 
+        };
+
+        command.SetAction(parseResult =>
+        {
+            var ageValue = parseResult.GetValue(age);
             try
             {
-                string birthDate = new BirthDate().ByAge(age);
-                console.Out.WriteLine(birthDate);
+                string birthDate = new BirthDate().ByAge(ageValue);
+                Console.WriteLine(birthDate);
             }
             catch (Exception)
             {
-                console.Error.WriteLine("Invalid 'age' value for date generation");
+                Console.Error.WriteLine("Invalid 'age' value for date generation");
             }
-        }, age);
+        });
 
         return command;
     }
