@@ -11,9 +11,11 @@ Vitorio CLI was created to meet this need.
 # Installation
 
 ## Requirements
-- [.NET 8 or 9](https://dotnet.microsoft.com/en-us/)
+- [.NET 10](https://dotnet.microsoft.com/en-us/)
 
+> [!NOTE]
 > Before version 2.0.0, the CLI was developed and supported by .NET 5, 6, and 7
+> Before version 3.0.0, the CLI was developed and supported by .NET 8 and .NET 9
 
 ## dotnet CLI
 Use the dotnet CLI to install the tool
@@ -353,6 +355,24 @@ Example:
 -> "AAA",
 -> "BBB",
 -> "CCC",
+```
+
+### format guid
+Formats a GUID according to the specified format
+
+Arguments:
+- guid: The GUID to be formatted
+
+Options:
+- **-f, --format**:  The format specifier (N, D, B, P or X) [default: D]
+
+Example:
+```
+~$ vitorio format guid 56971b9fcac74fe8a15f1a06b645f428
+-> 56971b9f-cac7-4fe8-a15f-1a06b645f428
+
+~$ vitorio format guid 56971b9fcac74fe8a15f1a06b645f428 -f X
+-> {0x56971b9f,0xcac7,0x4fe8,{0xa1,0x5f,0x1a,0x06,0xb6,0x45,0xf4,0x28}}
 ```
 
 ## Command convert (Converter)
