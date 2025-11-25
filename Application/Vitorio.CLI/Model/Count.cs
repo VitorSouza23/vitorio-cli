@@ -22,5 +22,5 @@ public class Count(int value)
 
     public bool IsItOnRange() => Value >= MinValue && Value <= MaxValue;
     public bool IsItNotOnRange() => !IsItOnRange();
-    public string GetNotInRangeMessage() => $"--count deve estar entre {MinValue} e {MaxValue}";
+    public string GetNotInRangeMessage() => $"--count must be between {MinValue} and {MaxValue}";
 }

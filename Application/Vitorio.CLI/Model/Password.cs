@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace Vitorio.CLI.Model;
 
 public class Password
