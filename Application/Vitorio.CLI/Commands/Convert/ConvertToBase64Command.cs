@@ -9,9 +9,22 @@ public class ConvertToBae64Command : ICommandFactory
     public Command Create()
     {
 
-        Argument<string> input = new("input", () => string.Empty, "A text input to be base64 encoded");
-        Option<string> file = new(["--file", "-f"], "Absolute path to the file (with file name and extension)");
-        Option<string> outputFilePath = new(["--output", "-o"], () => string.Empty, "Specifies the path of a destination file for base64 output");
+        Argument<string> input = new("input")
+        {
+            Description = "The string to be converted to Base64",
+            DefaultValueFactory = _ => string.Empty
+        };
+        
+        Option<string> file = new("--file", "-f")
+        {
+            DefaultValueFactory = _ => string.Empty,
+            Description = "Path to a file to be converted to Base64"
+        };
+        Option<string> outputFilePath = new("--output", "-o")
+        {
+            DefaultValueFactory = _ => string.Empty,
+            Description = "Specifies the path of a destination file for base64 output"
+        };
 
         Command command = new("toBase64", "Converts an input to Base64 encoding")
         {
@@ -20,54 +33,57 @@ public class ConvertToBae64Command : ICommandFactory
             outputFilePath
         };
 
-        command.SetHandler(async (string input, string file, string outputFilePath, IConsole console) =>
+        command.SetAction(async parseResult =>
         {
             try
             {
                 string base64 = string.Empty;
-                if (string.IsNullOrWhiteSpace(file) is false)
+                var fileValue = parseResult.GetValue(file);
+                var inputValue = parseResult.GetValue(input);
+                var outputFilePathValue = parseResult.GetValue(outputFilePath);
+                if (string.IsNullOrWhiteSpace(fileValue) is false)
                 {
-                    if (File.Exists(file) is false)
+                    if (File.Exists(fileValue) is false)
                     {
-                        console.Error.WriteLine($"The file {file} does not exist or the path is invalid");
+                        Console.Error.WriteLine($"The file {fileValue} does not exist or the path is invalid");
                         return;
                     }
 
-                    byte[] contentArray = await File.ReadAllBytesAsync(file, default);
+                    byte[] contentArray = await File.ReadAllBytesAsync(fileValue, default);
                     base64 = ToBase64String(contentArray);
                 }
                 else
                 {
-                    base64 = ToBase64String(Encoding.UTF8.GetBytes(input));
+                    base64 = ToBase64String(Encoding.UTF8.GetBytes(inputValue));
                 }
 
 
-                if (string.IsNullOrWhiteSpace(outputFilePath))
-                    console.Out.WriteLine(base64);
+                if (string.IsNullOrWhiteSpace(outputFilePathValue))
+                    Console.WriteLine(base64);
                 else
                 {
                     try
                     {
-                        using var outputFile = File.Open(outputFilePath, FileMode.OpenOrCreate);
+                        using var outputFile = File.Open(outputFilePathValue, FileMode.OpenOrCreate);
                         using var writer = new StreamWriter(outputFile);
                         await writer.WriteLineAsync(base64);
 
-                        console.Out.WriteLine($"Base64 written in: {outputFilePath}");
+                        Console.WriteLine($"Base64 written in: {outputFilePath}");
                     }
                     catch
                     {
-                        console.Error.WriteLine($"Error writing to output file: {outputFilePath}");
+                        Console.Error.WriteLine($"Error writing to output file: {outputFilePath}");
                         return;
                     }
                 }
             }
             catch
             {
-                console.Error.WriteLine("Error trying to convert image");
+                Console.Error.WriteLine("Error trying to convert image");
                 return;
             }
 
-        }, input, file, outputFilePath);
+        });
 
         return command;
     }

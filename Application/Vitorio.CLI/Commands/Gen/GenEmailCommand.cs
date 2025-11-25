@@ -6,9 +6,20 @@ public class GenEmailCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<string> provider = new(["--provider", "-p"], "Custom Email Provider");
-        Option<string> domain = new(["--domain", "-d"], () => "com", "Email domain (e.g.: com, com.br, etc.)");
-        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of emails to be generated");
+        Option<string> provider = new("--provider", "-p")
+        {
+            Description = "Email provider (e.g.: gmail, yahoo, outlook, etc.)"
+        };
+        Option<string> domain = new("--domain", "-d")
+        {
+            Description = "Email domain (e.g.: com, com.br, etc.)",
+            DefaultValueFactory = _ => "com"
+        };
+        Option<int> count = new("--count", "-c")
+        {
+            Description = "Number of emails to be generated",
+            DefaultValueFactory = _ => Count.Default().Value
+        };
 
         Command command = new("email", "Generates email address (not necessarily valid)")
         {
@@ -17,20 +28,24 @@ public class GenEmailCommand : ICommandFactory
             count
         };
 
-        command.SetHandler((string provider, string domain, int count, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (((Count)count).IsItNotOnRange())
+            var providerValue = parseResult.GetValue(provider);
+            var domainValue = parseResult.GetValue(domain);
+            var countValue = parseResult.GetValue(count);
+
+            if (((Count)countValue).IsItNotOnRange())
             {
-                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                Console.Error.WriteLine(((Count)countValue).GetNotInRangeMessage());
                 return;
             }
 
             Random random = new();
-            for (int index = 0; index < count; index++)
+            for (int index = 0; index < countValue; index++)
             {
-                console.Out.WriteLine(new Email(random, provider, domain));
+                Console.WriteLine(new Email(random, providerValue, domainValue));
             }
-        }, provider, domain, count);
+        });
 
         return command;
     }

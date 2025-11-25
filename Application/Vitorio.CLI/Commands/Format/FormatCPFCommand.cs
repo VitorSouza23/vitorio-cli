@@ -6,8 +6,15 @@ public class FormatCPFCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> cpf = new("cpf", "CPF to be formatted");
-        Option<bool> remove = new(["--remove", "-r"], () => false, "Remove CPF formatting");
+        Argument<string> cpf = new("cpf")
+        {
+            Description = "The CPF number to be formatted"
+        };
+        Option<bool> remove = new("--remove", "-r")
+        {
+            Description = "Remove CPF formatting",
+            DefaultValueFactory = _ => false
+        };
 
         Command command = new("cpf", "Formats a CPF with standard punctuation")
         {
@@ -15,26 +22,28 @@ public class FormatCPFCommand : ICommandFactory
             remove
         };
 
-        command.SetHandler((string cpf, bool remove, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (string.IsNullOrWhiteSpace(cpf))
+            var cpfValue = parseResult.GetValue(cpf);
+            var removeValue = parseResult.GetValue(remove);
+            if (string.IsNullOrWhiteSpace(cpfValue))
             {
-                console.Error.WriteLine("CPF cannot be empty");
+                Console.Error.WriteLine("CPF cannot be empty");
                 return;
             }
-            if (remove)
-                console.Out.WriteLine(Cpf.RemoveFormat(cpf));
+            if (removeValue)
+                Console.WriteLine(Cpf.RemoveFormat(cpfValue));
             else
             {
-                if (!Cpf.IsCPF(cpf))
+                if (!Cpf.IsCPF(cpfValue))
                 {
-                    console.Error.WriteLine("CPF must be a sequence of 11 digits");
+                    Console.Error.WriteLine("CPF must be a sequence of 11 digits");
                     return;
                 }
                 else
-                    console.Out.WriteLine(Cpf.Format(cpf));
+                    Console.WriteLine(Cpf.Format(cpfValue));
             }
-        }, cpf, remove);
+        });
 
         return command;
     }

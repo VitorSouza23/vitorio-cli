@@ -7,11 +7,31 @@ public class GenPhoneCommand : ICommandFactory
 {
     public Command Create()
     {
-        Option<int> codeCountry = new(["--code-country", "-cc"], () => 0, "Country code");
-        Option<int> ddd = new(["--ddd", "-d"], () => 0, "DDD code of the destination location");
-        Option<int> numberOfDigits = new(["--number-of-digits", "-nd"], () => 9, "Number of digits in the number (Min = 3, Max = 9)");
-        Option<int> count = new(["--count", "-c"], () => Count.Default().Value, "Number of telephone numbers to be generated");
-        Option<bool> notFormatted = new(["--not-formatted", "-nf"], () => false, "Does not format the phone number");
+        Option<int> codeCountry = new("--code-country", "-cc")
+        {
+            Description = "Country code",
+            DefaultValueFactory = _ => 0
+        };
+        Option<int> ddd = new("--ddd", "-d")
+        {
+            Description = "DDD code of the destination location",
+            DefaultValueFactory = _ => 0
+        };
+        Option<int> numberOfDigits = new("--number-of-digits", "-nd")
+        {
+            Description = "Number of digits in the number (Min = 3, Max = 9)",
+            DefaultValueFactory = _ => 9
+        };
+        Option<int> count = new("--count", "-c")
+        {
+            Description = "Number of telephone numbers to be generated",
+            DefaultValueFactory = _ => Count.Default().Value
+        };
+        Option<bool> notFormatted = new("--not-formatted", "-nf")
+        {
+            Description = "Do not format the phone number",
+            DefaultValueFactory = _ => false
+        };
 
         Command command = new("phone", "Generate phone number")
         {
@@ -22,46 +42,35 @@ public class GenPhoneCommand : ICommandFactory
             notFormatted
         };
 
-        CustomPhoneBinder customPhoneBinder = new(codeCountry, ddd, numberOfDigits, notFormatted);
-
-        command.SetHandler((PhoneRules phoneRules, int count, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (((Count)count).IsItNotOnRange())
+            var codeCountryValue = parseResult.GetValue(codeCountry);
+            var dddValue = parseResult.GetValue(ddd);
+            var numberOfDigitsValue = parseResult.GetValue(numberOfDigits);
+            var countValue = parseResult.GetValue(count);
+            var notFormattedValue = parseResult.GetValue(notFormatted);
+
+            if (((Count)countValue).IsItNotOnRange())
             {
-                console.Error.WriteLine(((Count)count).GetNotInRangeMessage());
+                Console.Error.WriteLine(((Count)countValue).GetNotInRangeMessage());
                 return;
             }
 
+            PhoneRules phoneRules = new(codeCountryValue, dddValue, numberOfDigitsValue, notFormattedValue);
             Phone phone = new(new Random(), phoneRules);
 
             if (phone.IsNotNumberOfDigitsInRange())
             {
-                console.Error.WriteLine(Phone.GetNotInRangeMessage());
+                Console.Error.WriteLine(Phone.GetNotInRangeMessage());
                 return;
             }
 
-            for (int index = 0; index < count; index++)
+            for (int index = 0; index < countValue; index++)
             {
-                console.Out.WriteLine(phone.New());
+                Console.WriteLine(phone.New());
             }
-        }, customPhoneBinder, count);
+        });
 
         return command;
-    }
-}
-
-internal class CustomPhoneBinder(Option<int> codeCountry, Option<int> ddd, Option<int> numberOfDigits, Option<bool> notFormatted) : BinderBase<PhoneRules>
-{
-    private readonly Option<int> _codeCountry = codeCountry;
-    private readonly Option<int> _ddd = ddd;
-    private readonly Option<int> _numberOfDigits = numberOfDigits;
-    private readonly Option<bool> _notFormatted = notFormatted;
-
-    protected override PhoneRules GetBoundValue(BindingContext bindingContext)
-    {
-        return new PhoneRules(bindingContext.ParseResult.GetValueForOption(_codeCountry),
-                              bindingContext.ParseResult.GetValueForOption(_ddd),
-                              bindingContext.ParseResult.GetValueForOption(_numberOfDigits),
-                              bindingContext.ParseResult.GetValueForOption(_notFormatted));
     }
 }

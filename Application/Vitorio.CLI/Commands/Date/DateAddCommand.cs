@@ -4,8 +4,14 @@ public class DateAddCommand : ICommandFactory
 {
     public Command Create()
     {
-        Argument<string> start = new("start", "Start date [\"now\" to use the current system date, \"utc\" to use the current UTC date]");
-        Argument<string> time = new("time", "Time to be added");
+        Argument<string> start = new("start")
+        {
+            Description = "The start date [\"now\" to use the current system date, \"utc\" to use the current UTC date]"
+        };
+        Argument<string> time = new("time")
+        {
+            Description = "The time to be added"
+        };
 
         Command command = new("add", "Add a time to a date")
         {
@@ -13,38 +19,39 @@ public class DateAddCommand : ICommandFactory
             time
         };
 
-        command.SetHandler((string start, string time, IConsole console) =>
+        command.SetAction(parseResult =>
         {
-            if (string.IsNullOrWhiteSpace(start))
+            var startValue = parseResult.GetValue(start);
+            var timeValue = parseResult.GetValue(time);
+            if (string.IsNullOrWhiteSpace(startValue))
             {
-                console.Error.WriteLine("Start date cannot be empty");
+                Console.Error.WriteLine("Start date cannot be empty");
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(time))
+            if (string.IsNullOrWhiteSpace(timeValue))
             {
-                console.Error.WriteLine("Time to be added cannot be empty");
+                Console.Error.WriteLine("Time to be added cannot be empty");
                 return;
             }
 
-            string startInput = start switch
+            string startInput = startValue switch
             {
                 "now" => DateTime.Now.ToString(),
                 "utc" => DateTime.UtcNow.ToString(),
-                _ => start
+                _ => startValue
             };
 
-            if (DateTime.TryParse(startInput, out DateTime startDate) && TimeSpan.TryParse(time, out TimeSpan timeToAdd))
+            if (DateTime.TryParse(startInput, out DateTime startDate) && TimeSpan.TryParse(timeValue, out TimeSpan timeToAdd))
             {
                 DateTime result = startDate.Add(timeToAdd);
-                console.Out.WriteLine(result.ToString());
+                Console.Out.WriteLine(result.ToString());
             }
             else
             {
-                console.Error.WriteLine("Invalid date or time format");
-                return;
+                Console.Error.WriteLine("Invalid date or time format");
             }
-        }, start, time);
+        });
 
         return command;
     }
