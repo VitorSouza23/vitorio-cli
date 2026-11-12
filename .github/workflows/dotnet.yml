@@ -2,7 +2,7 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
 name: .NET - Build and Publish
-run-name: Publish - ${{ github.event_name }} - ${{ github.ref_name }}
+run-name: Publish - ${{ github.event_name }} - ${{ github.ref_name }} / ${{ github.run_id }}.${ github.run_number }}
 
 on:
   pull_request:
