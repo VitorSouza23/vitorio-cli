@@ -4,17 +4,14 @@
 name: .NET
 
 on:
-  push:
-    branches: ["master"]
   pull_request:
     branches: ["master"]
     types:
       - closed
-  workflow_dispatch: # To publish not release versions
+  workflow_dispatch: # To publish not released versions
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  build-and-publish:
     env:
       PROJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
 
