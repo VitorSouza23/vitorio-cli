@@ -12,6 +12,9 @@ on:
 
 jobs:
   build-and-publish:
+    permissions:
+      id-token: write
+      contents: read
     env:
       PROJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
 
