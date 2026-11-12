@@ -10,6 +10,7 @@ on:
     branches: ["master"]
     types:
       - closed
+  workflow_dispatch: # To publish not released versions
 
 jobs:
   if_merged:
