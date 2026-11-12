@@ -375,6 +375,61 @@ Example:
 -> {0x56971b9f,0xcac7,0x4fe8,{0xa1,0x5f,0x1a,0x06,0xb6,0x45,0xf4,0x28}}
 ```
 
+### format json
+Formats a JSON string with four-space indentation. JSON can be supplied as an argument or read from standard input.
+
+Arguments:
+- input: The JSON string to be formatted (optional when reading from stdin)
+
+Example:
+```
+~$ vitorio format json "{\"name\":\"Vitorio\",\"active\":true}"
+-> {
+     "name": "Vitorio",
+     "active": true
+   }
+
+~$ echo "{\"name\":\"Vitorio\"}" | vitorio format json
+-> {
+     "name": "Vitorio"
+   }
+```
+
+PowerShell also accepts escaped quotes:
+```
+vitorio format json '"{\"name\":\"Vitorio\"}"'
+```
+
+Invalid JSON is reported to stderr and returns a nonzero exit code.
+
+## Command validate
+Validates data syntax.
+
+### validate json
+Checks whether a JSON string is syntactically valid. JSON can be supplied as an argument or read from standard input.
+
+Arguments:
+- input: The JSON string to be validated (optional when reading from stdin)
+
+On success, prints that the JSON is valid and reports the root value type (`object`, `array`, `string`, `number`, `boolean`, or `null`). On failure, prints the first syntax error with its line, byte position, and a source excerpt marking the reported position, then returns a nonzero exit code.
+
+Example:
+```
+~$ vitorio validate json "{\"name\":\"Vitorio\"}"
+-> Valid JSON. Root type: object.
+
+~$ echo "{\"name\":\"Vitorio\"}" | vitorio validate json
+-> Valid JSON. Root type: object.
+
+~$ vitorio validate json "{\"name\":}"
+Invalid JSON at line 1, byte 10: ...
+```
+
+In PowerShell, escaped-quote input is also accepted:
+```
+vitorio validate json '"{\"name\":\"Vitorio\"}"'
+```
+
 ## Command convert (Converter)
 Converts data from one type to another
 
