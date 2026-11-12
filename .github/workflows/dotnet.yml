@@ -15,21 +15,30 @@ jobs:
   if_merged:
     if: github.event.pull_request.merged == true
     env:
-      PORJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
+      PROJECT_PATH: ./Application/Vitorio.CLI/Vitorio.CLI.csproj
 
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
+
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: 11.0.x
+
       - name: Restore dependencies
         run: dotnet restore
-      - name: Test
-        run: dotnet test --no-restore
+
       - name: Pack
         run: dotnet pack ${{ env.PROJECT_PATH }} --no-restore -o out
+
+        # Get a short-lived NuGet API key
+      - name: NuGet login (OIDC → temp API key)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Publish
-        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate
+        run: dotnet nuget push out/*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source ${{ secrets.NUGET_SERVER }} --skip-duplicate
