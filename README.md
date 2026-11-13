@@ -11,11 +11,12 @@ Vitorio CLI was created to meet this need.
 # Installation
 
 ## Requirements
-- [.NET 10](https://dotnet.microsoft.com/en-us/)
+- [.NET 11](https://dotnet.microsoft.com/en-us/download)
 
 > [!NOTE]
 > Before version 2.0.0, the CLI was developed and supported by .NET 5, 6, and 7
 > Before version 3.0.0, the CLI was developed and supported by .NET 8 and .NET 9
+> Before version 4.0.0, the CLI was developed and supported by .NET 10
 
 ## dotnet CLI
 Use the dotnet CLI to install the tool
