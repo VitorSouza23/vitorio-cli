@@ -304,6 +304,10 @@ Arguments:
 Options:
  - **-u, --upper**: Formats the string in uppercase [default: False]
  - **-l, --lower**: Formats the string in lowercase [default: False]
+ - **-c, --camel-case**: Formats the string in camelCase [default: False]
+ - **-s, --snake-case**: Formats the string in snake_case [default: False]
+ - **-p, --pascal-case**: Formats the string in PascalCase [default: False]
+ - **-n, --normal-case**: Converts camelCase, snake_case, or PascalCase to a space-separated string [default: False]
  
 Example:
 ```
@@ -311,6 +315,12 @@ Example:
 -> THIS IS A TEST
 
 ~$ vitorio format string "This is a test" -l
+-> this is a test
+
+~$ vitorio format string "This is a test" --camel-case
+-> thisIsATest
+
+~$ vitorio format string "thisIsATest" --normal-case
 -> this is a test
 ```
 
