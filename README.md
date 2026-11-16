@@ -91,6 +91,7 @@ Options:
      - P -> (00000000-0000-0000-0000-000000000000)
      - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}} 
  - **-c, --count <count>**: Number of GUIDs to be generated [default: 1]
+ - **-v, --version <version>**: UUID version to generate (4 or 7) [default: 4]
  
 Example:
 ```
@@ -104,6 +105,9 @@ Example:
 -> 06e8badf-4ace-4fff-a4f5-1feadaffe6d7
 -> c80099b7-2ed9-4816-84df-80d4a7a65bc0
 -> 18bdbbc3-9b74-4f3b-819a-b05c03c323f9
+
+~$ vitorio gen guid -v 7
+-> 0190f4e0-7c00-7c27-9f31-f85d527c0266
 ```
 
 ### gen email
@@ -384,6 +388,9 @@ Example:
 
 ~$ vitorio format guid 56971b9fcac74fe8a15f1a06b645f428 -f X
 -> {0x56971b9f,0xcac7,0x4fe8,{0xa1,0x5f,0x1a,0x06,0xb6,0x45,0xf4,0x28}}
+
+~$ vitorio format guid 0190f4e0-7c00-7c27-9f31-f85d527c0266 -f N
+-> 0190f4e07c007c279f31f85d527c0266
 ```
 
 ### format json

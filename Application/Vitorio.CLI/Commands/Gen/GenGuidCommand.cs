@@ -24,21 +24,33 @@ public class GenGuidCommand : ICommandFactory
             Description = "Number of GUIDs to generate",
             DefaultValueFactory = _ => Count.Default().Value
         };
+        Option<int> version = new("--version", "-v")
+        {
+            Description = "UUID version to generate (4 or 7)",
+            DefaultValueFactory = _ => 4
+        };
 
         Command command = new("guid", "Generate GUIDs")
         {
             format,
-            count
+            count,
+            version
         };
 
         command.SetAction(parseResult =>
         {
             var formatValue = parseResult.GetValue(format);
             var countValue = parseResult.GetValue(count);
+            var versionValue = parseResult.GetValue(version);
 
             if (string.IsNullOrWhiteSpace(formatValue) || formatValue is not "D" and not "N" and not "B" and not "P" and not "X")
             {
                 Console.Error.WriteLine("--format: The value passed is not valid.");
+                return;
+            }
+            else if (versionValue is not 4 and not 7)
+            {
+                Console.Error.WriteLine("--version: The value passed must be 4 or 7.");
                 return;
             }
             else
@@ -51,7 +63,8 @@ public class GenGuidCommand : ICommandFactory
 
                 for (int index = 0; index < countValue; index++)
                 {
-                    Console.WriteLine(Guid.NewGuid().ToString(formatValue));
+                    Guid guid = versionValue == 7 ? Guid.CreateVersion7() : Guid.NewGuid();
+                    Console.WriteLine(guid.ToString(formatValue));
                 }
             }
         });
