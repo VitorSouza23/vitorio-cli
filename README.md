@@ -235,6 +235,24 @@ Example:
 -> 24/07/1991
 ```
 
+### gen coordinate
+Generates random latitude and longitude coordinate pairs (latitude from -90 to 90 and longitude from -180 to 180)
+
+Options:
+ - **-c, --count <count>**: Number of coordinate pairs to be generated [default: 1]
+
+Each pair is printed as `latitude,longitude` with six decimal places.
+
+Example:
+```
+~$ vitorio gen coordinate
+-> -23.550520,-46.633308
+
+~$ vitorio gen coordinate -c 2
+-> 40.712776,-74.005974
+-> 35.689487,139.691711
+```
+
 ## Command format (Formatter)
 Formats data through a mask
 

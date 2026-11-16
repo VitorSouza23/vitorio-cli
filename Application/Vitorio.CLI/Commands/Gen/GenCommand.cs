@@ -14,7 +14,8 @@ public class GenCommand : ICommandFactory
             new GenPasswordCommand().Create(),
             new GenNameCommand().Create(),
             new GenCEPCommand().Create(),
-            new GenBirthDateCommand().Create()
+            new GenBirthDateCommand().Create(),
+            new GenCoordinateCommand().Create()
         };
         
         return command;
