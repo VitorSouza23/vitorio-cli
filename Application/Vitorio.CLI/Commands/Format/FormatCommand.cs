@@ -11,7 +11,8 @@ public class FormatCommand : ICommandFactory
             new FormatDateCommand().Create(),
             new FormatStringCommand().Create(),
             new FormatStringListCommand().Create(),
-            new FormatGuidCommand().Create()
+            new FormatGuidCommand().Create(),
+            new FormatJsonCommand().Create()
         };
         return command;
     }

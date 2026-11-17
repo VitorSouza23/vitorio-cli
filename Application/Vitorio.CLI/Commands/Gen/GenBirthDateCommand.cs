@@ -1,5 +1,3 @@
-using Vitorio.CLI.Model;
-
 namespace Vitorio.CLI.Commands.Gen;
 
 public class GenBirthDateCommand : ICommandFactory
@@ -13,7 +11,7 @@ public class GenBirthDateCommand : ICommandFactory
 
         Command command = new("birthdate", "Generate birth date corresponding to an age")
         {
-           age 
+           age
         };
 
         command.SetAction(parseResult =>

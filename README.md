@@ -11,11 +11,12 @@ Vitorio CLI was created to meet this need.
 # Installation
 
 ## Requirements
-- [.NET 10](https://dotnet.microsoft.com/en-us/)
+- [.NET 11](https://dotnet.microsoft.com/en-us/download)
 
 > [!NOTE]
 > Before version 2.0.0, the CLI was developed and supported by .NET 5, 6, and 7
 > Before version 3.0.0, the CLI was developed and supported by .NET 8 and .NET 9
+> Before version 4.0.0, the CLI was developed and supported by .NET 10
 
 ## dotnet CLI
 Use the dotnet CLI to install the tool
@@ -90,6 +91,7 @@ Options:
      - P -> (00000000-0000-0000-0000-000000000000)
      - X -> {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}} 
  - **-c, --count <count>**: Number of GUIDs to be generated [default: 1]
+ - **-v, --version <version>**: UUID version to generate (4 or 7) [default: 4]
  
 Example:
 ```
@@ -103,6 +105,9 @@ Example:
 -> 06e8badf-4ace-4fff-a4f5-1feadaffe6d7
 -> c80099b7-2ed9-4816-84df-80d4a7a65bc0
 -> 18bdbbc3-9b74-4f3b-819a-b05c03c323f9
+
+~$ vitorio gen guid -v 7
+-> 0190f4e0-7c00-7c27-9f31-f85d527c0266
 ```
 
 ### gen email
@@ -230,6 +235,24 @@ Example:
 -> 24/07/1991
 ```
 
+### gen coordinate
+Generates random latitude and longitude coordinate pairs (latitude from -90 to 90 and longitude from -180 to 180)
+
+Options:
+ - **-c, --count <count>**: Number of coordinate pairs to be generated [default: 1]
+
+Each pair is printed as `latitude,longitude` with six decimal places.
+
+Example:
+```
+~$ vitorio gen coordinate
+-> -23.550520,-46.633308
+
+~$ vitorio gen coordinate -c 2
+-> 40.712776,-74.005974
+-> 35.689487,139.691711
+```
+
 ## Command format (Formatter)
 Formats data through a mask
 
@@ -303,6 +326,10 @@ Arguments:
 Options:
  - **-u, --upper**: Formats the string in uppercase [default: False]
  - **-l, --lower**: Formats the string in lowercase [default: False]
+ - **-c, --camel-case**: Formats the string in camelCase [default: False]
+ - **-s, --snake-case**: Formats the string in snake_case [default: False]
+ - **-p, --pascal-case**: Formats the string in PascalCase [default: False]
+ - **-n, --normal-case**: Converts camelCase, snake_case, or PascalCase to a space-separated string [default: False]
  
 Example:
 ```
@@ -310,6 +337,12 @@ Example:
 -> THIS IS A TEST
 
 ~$ vitorio format string "This is a test" -l
+-> this is a test
+
+~$ vitorio format string "This is a test" --camel-case
+-> thisIsATest
+
+~$ vitorio format string "thisIsATest" --normal-case
 -> this is a test
 ```
 
@@ -373,6 +406,64 @@ Example:
 
 ~$ vitorio format guid 56971b9fcac74fe8a15f1a06b645f428 -f X
 -> {0x56971b9f,0xcac7,0x4fe8,{0xa1,0x5f,0x1a,0x06,0xb6,0x45,0xf4,0x28}}
+
+~$ vitorio format guid 0190f4e0-7c00-7c27-9f31-f85d527c0266 -f N
+-> 0190f4e07c007c279f31f85d527c0266
+```
+
+### format json
+Formats a JSON string with four-space indentation. JSON can be supplied as an argument or read from standard input.
+
+Arguments:
+- input: The JSON string to be formatted (optional when reading from stdin)
+
+Example:
+```
+~$ vitorio format json "{\"name\":\"Vitorio\",\"active\":true}"
+-> {
+     "name": "Vitorio",
+     "active": true
+   }
+
+~$ echo "{\"name\":\"Vitorio\"}" | vitorio format json
+-> {
+     "name": "Vitorio"
+   }
+```
+
+PowerShell also accepts escaped quotes:
+```
+vitorio format json '"{\"name\":\"Vitorio\"}"'
+```
+
+Invalid JSON is reported to stderr and returns a nonzero exit code.
+
+## Command validate
+Validates data syntax.
+
+### validate json
+Checks whether a JSON string is syntactically valid. JSON can be supplied as an argument or read from standard input.
+
+Arguments:
+- input: The JSON string to be validated (optional when reading from stdin)
+
+On success, prints that the JSON is valid and reports the root value type (`object`, `array`, `string`, `number`, `boolean`, or `null`). On failure, prints the first syntax error with its line, byte position, and a source excerpt marking the reported position, then returns a nonzero exit code.
+
+Example:
+```
+~$ vitorio validate json "{\"name\":\"Vitorio\"}"
+-> Valid JSON. Root type: object.
+
+~$ echo "{\"name\":\"Vitorio\"}" | vitorio validate json
+-> Valid JSON. Root type: object.
+
+~$ vitorio validate json "{\"name\":}"
+Invalid JSON at line 1, byte 10: ...
+```
+
+In PowerShell, escaped-quote input is also accepted:
+```
+vitorio validate json '"{\"name\":\"Vitorio\"}"'
 ```
 
 ## Command convert (Converter)
